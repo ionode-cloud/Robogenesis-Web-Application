@@ -11,44 +11,49 @@ import ContactPage from './pages/ContactPage.jsx';
 
 const VALID_PAGES = ['home', 'about', 'domains', 'products', 'contact'];
 
-function getPageFromHash() {
+function parseCurrentRoute() {
   try {
-    const raw = typeof window !== 'undefined' ? window.location.hash : '';
-    const clean = raw.replace(/^#\/?/, '').toLowerCase().trim();
-    if (VALID_PAGES.includes(clean)) {
-      return clean;
+    if (typeof window === 'undefined') {
+      return { page: 'home', isOs: true };
     }
-    const saved = localStorage.getItem('robogenesis_current_page');
-    if (saved && VALID_PAGES.includes(saved)) {
-      return saved;
-    }
-    return 'home';
-  } catch {
-    return 'home';
-  }
-}
 
-function getInitialOsMode() {
-  try {
-    const raw = typeof window !== 'undefined' ? window.location.hash : '';
-    const clean = raw.replace(/^#\/?/, '').toLowerCase().trim();
-    // If explicitly navigated to a non-home web page via direct URL link
-    if (VALID_PAGES.includes(clean) && clean !== 'home') {
-      return false;
+    // 1. Check if legacy hash was provided (e.g. #/products, #products, #/os)
+    const rawHash = window.location.hash || '';
+    const cleanHash = rawHash.replace(/^#\/?/, '').toLowerCase().trim();
+    const hadHash = !!rawHash;
+
+    // 2. Check pathname (e.g. /products, /about, /os, /)
+    const rawPath = window.location.pathname || '';
+    const cleanPath = rawPath.replace(/^\/+|\/+$/g, '').toLowerCase().trim();
+
+    // Priority: if hash exists, migrate from hash; otherwise use pathname
+    const target = (hadHash && cleanHash) ? cleanHash : cleanPath;
+
+    if (target === 'os') {
+      return { page: 'home', isOs: true };
     }
-    return true; // First show Mac View by default
+
+    if (VALID_PAGES.includes(target)) {
+      return { page: target, isOs: false };
+    }
+
+    // Root path: first show Mac View by default
+    const saved = localStorage.getItem('robogenesis_current_page');
+    const defaultPage = (saved && VALID_PAGES.includes(saved)) ? saved : 'home';
+    return { page: defaultPage, isOs: true };
   } catch {
-    return true;
+    return { page: 'home', isOs: true };
   }
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState(getPageFromHash);
+  const [route] = useState(parseCurrentRoute);
+  const [currentPage, setCurrentPage] = useState(route.page);
   const [scrolled, setScrolled] = useState(false);
-  const [osMode, setOsMode] = useState(getInitialOsMode);
+  const [osMode, setOsMode] = useState(route.isOs);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Sync state with browser hash on initial load and keep URL hash populated
+  // Sync state with clean URL path (remove # completely)
   useEffect(() => {
     try {
       localStorage.setItem('robogenesis_current_page', currentPage);
@@ -56,32 +61,23 @@ export default function App() {
       // Ignored
     }
 
-    if (osMode) {
-      const cleanHash = (window.location.hash || '').replace(/^#\/?/, '').toLowerCase().trim();
-      if (cleanHash !== 'os') {
-        window.location.hash = '#/os';
-      }
-    } else {
-      const cleanHash = (window.location.hash || '').replace(/^#\/?/, '').toLowerCase().trim();
-      if (cleanHash !== currentPage && cleanHash !== 'os') {
-        window.location.hash = `#/${currentPage}`;
-      }
+    const expectedPath = osMode ? '/os' : `/${currentPage}`;
+    if (window.location.hash || window.location.pathname !== expectedPath) {
+      window.history.replaceState(null, '', expectedPath);
     }
   }, [currentPage, osMode]);
 
-  // Sync with browser hash history
+  // Handle browser Back / Forward navigation (popstate) & clean any accidental hash
   useEffect(() => {
-    const onHashChange = () => {
-      const clean = (window.location.hash || '').replace(/^#\/?/, '').toLowerCase().trim();
-      if (clean === 'os') {
+    const handlePopState = () => {
+      const r = parseCurrentRoute();
+      if (r.isOs) {
         setOsMode(true);
-        return;
-      }
-      if (VALID_PAGES.includes(clean)) {
-        setCurrentPage(clean);
+      } else {
         setOsMode(false);
+        setCurrentPage(r.page);
         try {
-          localStorage.setItem('robogenesis_current_page', clean);
+          localStorage.setItem('robogenesis_current_page', r.page);
         } catch {
           // Ignored
         }
@@ -89,8 +85,24 @@ export default function App() {
       }
     };
 
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
+    const handleHashChange = () => {
+      const r = parseCurrentRoute();
+      if (r.isOs) {
+        setOsMode(true);
+        window.history.replaceState(null, '', '/os');
+      } else {
+        setOsMode(false);
+        setCurrentPage(r.page);
+        window.history.replaceState(null, '', `/${r.page}`);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handleHashChange);
+    };
   }, []);
 
   // Track scroll position for navbar glass styling
@@ -111,17 +123,27 @@ export default function App() {
     } catch {
       // Ignored
     }
-    window.location.hash = `#/${page}`;
+    const newPath = `/${page}`;
+    if (window.location.pathname !== newPath || window.location.hash) {
+      window.history.pushState(null, '', newPath);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleOpenOs = useCallback(() => {
     setOsMode(true);
+    if (window.location.pathname !== '/os' || window.location.hash) {
+      window.history.pushState(null, '', '/os');
+    }
   }, []);
 
   const handleCloseOs = useCallback(() => {
     setOsMode(false);
-    window.location.hash = `#/${currentPage}`;
+    const targetPage = VALID_PAGES.includes(currentPage) ? currentPage : 'home';
+    const newPath = `/${targetPage}`;
+    if (window.location.pathname !== newPath || window.location.hash) {
+      window.history.pushState(null, '', newPath);
+    }
   }, [currentPage]);
 
   return (

@@ -37,7 +37,7 @@ export default function Navbar({
       <div className="navbar-container">
         {/* Brand */}
         <a
-          href="home"
+          href="/home"
           className="navbar-brand"
           onClick={(e) => {
             e.preventDefault();

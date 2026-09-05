@@ -43,7 +43,7 @@ export default function FooterSection({ onOpenOs, onNavigate }) {
           {/* Brand row */}
           <div className="footer-brand-row">
             <a
-              href="#home"
+              href="/home"
               className="footer-brand"
               onClick={(e) => {
                 e.preventDefault();
@@ -127,7 +127,14 @@ export default function FooterSection({ onOpenOs, onNavigate }) {
             <span>© 2026 Robogenesis Technologies. All rights reserved.</span>
             <div style={{ display: 'flex', gap: 20 }}>
               {['Privacy', 'Terms', 'Security', 'Cookies'].map((l) => (
-                <a key={l} href="#" style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12.5 }}>{l}</a>
+                <a
+                  key={l}
+                  href={`/${l.toLowerCase()}`}
+                  onClick={(e) => e.preventDefault()}
+                  style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12.5 }}
+                >
+                  {l}
+                </a>
               ))}
             </div>
           </div>
