@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import logoImg from '../../assets/logo.png';
+import logoImg from '../assets/logo.png';
 
 const NAV_LINKS = [
   { id: 'home', label: 'Home' },
@@ -33,11 +33,11 @@ export default function Navbar({
   }, [currentPage]);
 
   return (
-    <header className={`navbar${scrolled ? ' scrolled' : ''}`}>
+    <header className={`navbar${scrolled ? ' scrolled' : ''}`} data-page={currentPage}>
       <div className="navbar-container">
         {/* Brand */}
         <a
-          href="#home"
+          href="home"
           className="navbar-brand"
           onClick={(e) => {
             e.preventDefault();

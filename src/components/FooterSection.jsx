@@ -1,4 +1,4 @@
-import logoImg from '../../assets/logo.png';
+import logoImg from '../assets/logo.png';
 
 const EARTH_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260613_180732_a54afbf6-b30d-470e-861f-669871f09f67.mp4';
 
@@ -17,7 +17,7 @@ const FOOTER_COLS = [
   },
   {
     title: 'Company',
-    links: ['About Robogenesis', 'Engineering Blog', 'Careers', 'R&D Collaboration'],
+    links: ['About Robogenesis', 'Engineering Blog', 'Careers', 'Contact Us'],
   },
 ];
 
@@ -66,29 +66,33 @@ export default function FooterSection({ onOpenOs, onNavigate }) {
           {/* Link columns */}
           <div className="footer-columns-grid">
             {FOOTER_COLS.map((col) => {
-              const targetPage =
-                col.title === 'Robotics'
-                  ? 'products'
-                  : col.title === 'Embedded' || col.title === 'AI & Vision'
-                  ? 'domains'
-                  : 'about';
               return (
                 <div key={col.title} className="fc-col">
                   <h3>{col.title}</h3>
                   <ul>
-                    {col.links.map((l) => (
-                      <li key={l}>
-                        <a
-                          href={`#${targetPage}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            onNavigate?.(targetPage);
-                          }}
-                        >
-                          {l}
-                        </a>
-                      </li>
-                    ))}
+                    {col.links.map((l) => {
+                      const targetPage =
+                        l === 'Contact Us'
+                          ? 'contact'
+                          : col.title === 'Robotics'
+                          ? 'products'
+                          : col.title === 'Embedded' || col.title === 'AI & Vision'
+                          ? 'domains'
+                          : 'about';
+                      return (
+                        <li key={l}>
+                          <a
+                            href={`#${targetPage}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              onNavigate?.(targetPage);
+                            }}
+                          >
+                            {l}
+                          </a>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               );

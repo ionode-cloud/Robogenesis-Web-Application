@@ -15,6 +15,7 @@ const LANGUAGES = [
 
 export default function WinConsole({
   isOpen,
+  isMinimized,
   isFocused,
   zIndex,
   onClose,
@@ -26,9 +27,21 @@ export default function WinConsole({
   const [outputLogs, setOutputLogs] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
   const [activeTab, setActiveTab] = useState('output'); // 'output' | 'preview'
-  const [layoutMode, setLayoutMode] = useState('split'); // 'split' | 'stacked'
+  const [layoutMode, setLayoutMode] = useState(() =>
+    typeof window !== 'undefined' && window.innerWidth < 768 ? 'stacked' : 'split'
+  );
   const [executionTime, setExecutionTime] = useState(null);
   const outputEndRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setLayoutMode('stacked');
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const currentCode = codes[lang] || '';
 
@@ -127,6 +140,7 @@ export default function WinConsole({
       id="win-console"
       title={`Terminal / IDE — ${LANGUAGES.find((l) => l.id === lang)?.name || 'Code Runner'} (Console)`}
       isOpen={isOpen}
+      isMinimized={isMinimized}
       isFocused={isFocused}
       zIndex={zIndex}
       initialWidth={900}

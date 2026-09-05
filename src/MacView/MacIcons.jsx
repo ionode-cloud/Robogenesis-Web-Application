@@ -12,26 +12,27 @@ export function HomeIcon({ className = '', style = {} }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: '100%', height: '100%', ...style }}
+      style={{ width: '100%', height: '100%', display: 'block', ...style }}
     >
       <defs>
-        <linearGradient id="home-bg" x1="32" y1="2" x2="32" y2="62" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#fbbf24" />
-          <stop offset="45%" stopColor="#f97316" />
+        <linearGradient id="home-grad-vivid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ff8a00" />
+          <stop offset="50%" stopColor="#f97316" />
           <stop offset="100%" stopColor="#ea580c" />
         </linearGradient>
-        <clipPath id="squircle-clip-home">
+        <clipPath id="squircle-clip-home-vivid">
           <rect x="2" y="2" width="60" height="60" rx="14" ry="14" />
         </clipPath>
       </defs>
 
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#home-bg)" />
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#fed7aa" strokeWidth="0.75" />
+      {/* Radiant Sunset Orange Squircle */}
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#home-grad-vivid)" />
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#fed7aa" strokeWidth="0.8" strokeOpacity="0.8" />
 
       {/* Top soft shine */}
-      <ellipse cx="32" cy="12" rx="22" ry="8" fill="#ffffff" opacity="0.28" />
+      <ellipse cx="32" cy="12" rx="22" ry="7" fill="#ffffff" opacity="0.3" />
 
-      <g clipPath="url(#squircle-clip-home)">
+      <g clipPath="url(#squircle-clip-home-vivid)">
         {/* House Chimney */}
         <rect x="39" y="19" width="4.5" height="9" rx="1" fill="#ffffff" />
 
@@ -47,11 +48,11 @@ export function HomeIcon({ className = '', style = {} }) {
         {/* House Doorway (Arch) */}
         <path
           d="M28 50 L28 39 C28 37 29.5 35 32 35 C34.5 35 36 37 36 39 L36 50 Z"
-          fill="url(#home-bg)"
+          fill="#ea580c"
         />
 
         {/* Circular Attic Window */}
-        <circle cx="32" cy="27" r="2.5" fill="url(#home-bg)" />
+        <circle cx="32" cy="27" r="2.5" fill="#ea580c" />
       </g>
     </svg>
   );
@@ -68,35 +69,36 @@ export function AboutIcon({ className = '', style = {} }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: '100%', height: '100%', ...style }}
+      style={{ width: '100%', height: '100%', display: 'block', ...style }}
     >
       <defs>
-        <linearGradient id="about-bg" x1="32" y1="2" x2="32" y2="62" gradientUnits="userSpaceOnUse">
+        <linearGradient id="about-grad-vivid" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#38bdf8" />
-          <stop offset="40%" stopColor="#2563eb" />
-          <stop offset="100%" stopColor="#1e3a8a" />
+          <stop offset="45%" stopColor="#0284c7" />
+          <stop offset="100%" stopColor="#1d4ed8" />
         </linearGradient>
-        <radialGradient id="about-glow" cx="32" cy="32" r="24" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#60a5fa" stopOpacity="0" />
+        <radialGradient id="about-glow-vivid" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="#2563eb" stopOpacity="0" />
         </radialGradient>
-        <clipPath id="squircle-clip-about">
+        <clipPath id="squircle-clip-about-vivid">
           <rect x="2" y="2" width="60" height="60" rx="14" ry="14" />
         </clipPath>
       </defs>
 
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#about-bg)" />
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#93c5fd" strokeWidth="0.75" />
+      {/* Royal Cobalt Sapphire Squircle */}
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#about-grad-vivid)" />
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#93c5fd" strokeWidth="0.8" strokeOpacity="0.85" />
 
       {/* Glow Center */}
-      <circle cx="32" cy="32" r="22" fill="url(#about-glow)" />
+      <circle cx="32" cy="32" r="22" fill="url(#about-glow-vivid)" />
 
       {/* Top subtle sheen */}
-      <ellipse cx="32" cy="12" rx="22" ry="8" fill="#ffffff" opacity="0.25" />
+      <ellipse cx="32" cy="12" rx="22" ry="7" fill="#ffffff" opacity="0.28" />
 
-      <g clipPath="url(#squircle-clip-about)">
+      <g clipPath="url(#squircle-clip-about-vivid)">
         {/* Outer Circular Emblem Ring */}
-        <circle cx="32" cy="32" r="20" stroke="#ffffff" strokeWidth="2.5" strokeOpacity="0.9" />
+        <circle cx="32" cy="32" r="20" stroke="#ffffff" strokeWidth="2.5" strokeOpacity="0.95" />
 
         {/* Info 'i' Dot */}
         <circle cx="32" cy="22" r="3" fill="#ffffff" />
@@ -113,7 +115,7 @@ export function AboutIcon({ className = '', style = {} }) {
 
 /**
  * macOS Domains Icon
- * Deep indigo gradient squircle with connected global network nodes and coordinate rings.
+ * Cosmic ultraviolet / purple gradient squircle with connected global network nodes.
  */
 export function DomainsIcon({ className = '', style = {} }) {
   return (
@@ -122,41 +124,42 @@ export function DomainsIcon({ className = '', style = {} }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: '100%', height: '100%', ...style }}
+      style={{ width: '100%', height: '100%', display: 'block', ...style }}
     >
       <defs>
-        <linearGradient id="domains-bg" x1="32" y1="2" x2="32" y2="62" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#818cf8" />
-          <stop offset="45%" stopColor="#6366f1" />
-          <stop offset="100%" stopColor="#3730a3" />
+        <linearGradient id="domains-grad-vivid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#e879f9" />
+          <stop offset="45%" stopColor="#a855f7" />
+          <stop offset="100%" stopColor="#6b21a8" />
         </linearGradient>
-        <clipPath id="squircle-clip-domains">
+        <clipPath id="squircle-clip-domains-vivid">
           <rect x="2" y="2" width="60" height="60" rx="14" ry="14" />
         </clipPath>
       </defs>
 
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#domains-bg)" />
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#c7d2fe" strokeWidth="0.75" />
+      {/* Cyber Ultraviolet Purple Squircle */}
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#domains-grad-vivid)" />
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#f5d0fe" strokeWidth="0.8" strokeOpacity="0.85" />
 
       {/* Top sheen */}
-      <ellipse cx="32" cy="12" rx="22" ry="8" fill="#ffffff" opacity="0.25" />
+      <ellipse cx="32" cy="12" rx="22" ry="7" fill="#ffffff" opacity="0.28" />
 
-      <g clipPath="url(#squircle-clip-domains)">
+      <g clipPath="url(#squircle-clip-domains-vivid)">
         {/* Outer Tech Network Circle */}
-        <circle cx="32" cy="32" r="20" stroke="#ffffff" strokeWidth="2" strokeOpacity="0.85" />
+        <circle cx="32" cy="32" r="20" stroke="#ffffff" strokeWidth="2" strokeOpacity="0.9" />
 
         {/* Latitude / Coordinate Ellipses */}
-        <ellipse cx="32" cy="32" rx="20" ry="8" stroke="#ffffff" strokeWidth="1.2" strokeOpacity="0.65" />
-        <ellipse cx="32" cy="32" rx="8" ry="20" stroke="#ffffff" strokeWidth="1.2" strokeOpacity="0.65" />
+        <ellipse cx="32" cy="32" rx="20" ry="8" stroke="#ffffff" strokeWidth="1.3" strokeOpacity="0.75" />
+        <ellipse cx="32" cy="32" rx="8" ry="20" stroke="#ffffff" strokeWidth="1.3" strokeOpacity="0.75" />
 
         {/* Central Core Pulse */}
-        <circle cx="32" cy="32" r="4" fill="#ffffff" />
+        <circle cx="32" cy="32" r="4.2" fill="#ffffff" />
 
         {/* 4 Connected Domain Nodes */}
-        <circle cx="32" cy="12" r="2.8" fill="#a5b4fc" stroke="#ffffff" strokeWidth="1" />
-        <circle cx="32" cy="52" r="2.8" fill="#a5b4fc" stroke="#ffffff" strokeWidth="1" />
-        <circle cx="12" cy="32" r="2.8" fill="#a5b4fc" stroke="#ffffff" strokeWidth="1" />
-        <circle cx="52" cy="32" r="2.8" fill="#a5b4fc" stroke="#ffffff" strokeWidth="1" />
+        <circle cx="32" cy="12" r="3" fill="#fdf4ff" stroke="#a855f7" strokeWidth="1" />
+        <circle cx="32" cy="52" r="3" fill="#fdf4ff" stroke="#a855f7" strokeWidth="1" />
+        <circle cx="12" cy="32" r="3" fill="#fdf4ff" stroke="#a855f7" strokeWidth="1" />
+        <circle cx="52" cy="32" r="3" fill="#fdf4ff" stroke="#a855f7" strokeWidth="1" />
       </g>
     </svg>
   );
@@ -323,48 +326,50 @@ export function TerminalIcon({ className = '', style = {} }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: '100%', height: '100%', ...style }}
+      style={{ width: '100%', height: '100%', display: 'block', ...style }}
     >
       <defs>
-        <linearGradient id="term-bg" x1="32" y1="2" x2="32" y2="62" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#27272a" />
+        <linearGradient id="term-grad-vivid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#3f3f46" />
+          <stop offset="35%" stopColor="#27272a" />
           <stop offset="100%" stopColor="#09090b" />
         </linearGradient>
-        <linearGradient id="term-header" x1="32" y1="2" x2="32" y2="16" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#3f3f46" />
-          <stop offset="100%" stopColor="#27272a" />
+        <linearGradient id="term-header-vivid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#52525b" />
+          <stop offset="100%" stopColor="#3f3f46" />
         </linearGradient>
-        <clipPath id="squircle-clip-term">
+        <clipPath id="squircle-clip-term-vivid">
           <rect x="2" y="2" width="60" height="60" rx="14" ry="14" />
         </clipPath>
       </defs>
 
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#term-bg)" />
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#52525b" strokeWidth="0.75" />
+      {/* Midnight Titanium Squircle */}
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#term-grad-vivid)" />
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#71717a" strokeWidth="0.8" strokeOpacity="0.8" />
 
-      <g clipPath="url(#squircle-clip-term)">
+      <g clipPath="url(#squircle-clip-term-vivid)">
         {/* Title bar */}
-        <rect x="2" y="2" width="60" height="14" fill="url(#term-header)" />
-        <line x1="2" y1="16" x2="62" y2="16" stroke="#18181b" strokeWidth="0.75" />
+        <rect x="2" y="2" width="60" height="15" fill="url(#term-header-vivid)" />
+        <line x1="2" y1="17" x2="62" y2="17" stroke="#18181b" strokeWidth="0.8" />
 
-        {/* 3 Traffic lights */}
-        <circle cx="10" cy="9" r="2.2" fill="#ef4444" />
-        <circle cx="16" cy="9" r="2.2" fill="#f59e0b" />
-        <circle cx="22" cy="9" r="2.2" fill="#10b981" />
+        {/* 3 Window traffic lights */}
+        <circle cx="11" cy="9.5" r="2.5" fill="#ef4444" />
+        <circle cx="18" cy="9.5" r="2.5" fill="#f59e0b" />
+        <circle cx="25" cy="9.5" r="2.5" fill="#10b981" />
 
         {/* Code / Command Prompt `>_` */}
         <path
-          d="M12 26 L21 33 L12 40"
+          d="M12 27 L21 34 L12 41"
           stroke="#4ade80"
-          strokeWidth="3"
+          strokeWidth="3.2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         {/* Glowing Cursor Block */}
-        <rect x="26" y="36" width="10" height="3" rx="0.5" fill="#4ade80" />
+        <rect x="26" y="37" width="11" height="3.5" rx="0.8" fill="#4ade80" />
 
         {/* Secondary command line in dimmer tone */}
-        <line x1="12" y1="48" x2="34" y2="48" stroke="#71717a" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+        <line x1="12" y1="49" x2="36" y2="49" stroke="#71717a" strokeWidth="2.2" strokeLinecap="round" opacity="0.6" />
       </g>
     </svg>
   );
@@ -449,32 +454,36 @@ export function MessagesIcon({ className = '', style = {} }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: '100%', height: '100%', ...style }}
+      style={{ width: '100%', height: '100%', display: 'block', ...style }}
     >
       <defs>
-        <linearGradient id="msg-bg" x1="32" y1="2" x2="32" y2="62" gradientUnits="userSpaceOnUse">
+        <linearGradient id="msg-grad-vivid" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#4ade80" />
-          <stop offset="50%" stopColor="#22c55e" />
+          <stop offset="45%" stopColor="#22c55e" />
           <stop offset="100%" stopColor="#15803d" />
         </linearGradient>
+        <clipPath id="squircle-clip-msg-vivid">
+          <rect x="2" y="2" width="60" height="60" rx="14" ry="14" />
+        </clipPath>
       </defs>
 
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#msg-bg)" />
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#86efac" strokeWidth="0.75" />
+      {/* Apple Messages Spring Emerald Green Squircle */}
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#msg-grad-vivid)" />
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#bbf7d0" strokeWidth="0.8" strokeOpacity="0.85" />
 
       {/* Top soft shine */}
-      <ellipse cx="32" cy="12" rx="22" ry="8" fill="#ffffff" opacity="0.25" />
+      <ellipse cx="32" cy="12" rx="22" ry="7" fill="#ffffff" opacity="0.3" />
 
-      {/* Speech bubble */}
-      <g>
+      <g clipPath="url(#squircle-clip-msg-vivid)">
+        {/* Speech bubble */}
         <path
           d="M14 30 C14 20.6 22 13 32 13 C42 13 50 20.6 50 30 C50 39.4 42 47 32 47 C29.2 47 26.5 46.4 24.1 45.3 L15 48.5 L17.5 40.5 C15.3 37.5 14 33.9 14 30 Z"
           fill="#ffffff"
         />
         {/* Interior message dots */}
-        <circle cx="25" cy="30" r="2.2" fill="#22c55e" opacity="0.8" />
-        <circle cx="32" cy="30" r="2.2" fill="#22c55e" opacity="0.8" />
-        <circle cx="39" cy="30" r="2.2" fill="#22c55e" opacity="0.8" />
+        <circle cx="25" cy="30" r="2.4" fill="#22c55e" />
+        <circle cx="32" cy="30" r="2.4" fill="#22c55e" />
+        <circle cx="39" cy="30" r="2.4" fill="#22c55e" />
       </g>
     </svg>
   );
@@ -784,14 +793,14 @@ export function PhotosIcon({ className = '', style = {} }) {
       style={{ width: '100%', height: '100%', ...style }}
     >
       <defs>
-        <linearGradient id="photos-bg" x1="32" y1="2" x2="32" y2="62" gradientUnits="userSpaceOnUse">
+        <linearGradient id="photos-grad-vivid" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="100%" stopColor="#f1f5f9" />
+          <stop offset="100%" stopColor="#e2e8f0" />
         </linearGradient>
       </defs>
 
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#photos-bg)" />
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#e2e8f0" strokeWidth="0.75" />
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#photos-grad-vivid)" />
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#cbd5e1" strokeWidth="0.8" strokeOpacity="0.8" />
 
       {/* 8 Radial Rainbow Petals */}
       <g transform="translate(32, 32)">
@@ -894,6 +903,7 @@ export function SafariIcon({ className = '', style = {} }) {
 
 /**
  * macOS Products Icon (Hardware / Systems)
+ * Radiant golden amber / topaz squircle with 3D isometric hardware container.
  */
 export function ProductsIcon({ className = '', style = {} }) {
   return (
@@ -902,25 +912,36 @@ export function ProductsIcon({ className = '', style = {} }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ width: '100%', height: '100%', ...style }}
+      style={{ width: '100%', height: '100%', display: 'block', ...style }}
     >
       <defs>
-        <linearGradient id="prod-bg" x1="32" y1="2" x2="32" y2="62" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#14b8a6" />
-          <stop offset="50%" stopColor="#0d9488" />
-          <stop offset="100%" stopColor="#0f766e" />
+        <linearGradient id="prod-grad-vivid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#fde047" />
+          <stop offset="45%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#b45309" />
         </linearGradient>
+        <clipPath id="squircle-clip-prod-vivid">
+          <rect x="2" y="2" width="60" height="60" rx="14" ry="14" />
+        </clipPath>
       </defs>
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#prod-bg)" />
-      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#99f6e4" strokeWidth="0.75" />
-      <ellipse cx="32" cy="12" rx="22" ry="8" fill="#ffffff" opacity="0.25" />
 
-      {/* 3D Box Package */}
-      <path d="M32 16 L48 24 L32 32 L16 24 Z" fill="#ffffff" />
-      <path d="M16 24 L32 32 L32 48 L16 40 Z" fill="#ccfbf1" />
-      <path d="M32 32 L48 24 L48 40 L32 48 Z" fill="#99f6e4" />
-      <path d="M32 16 L32 32" stroke="#0d9488" strokeWidth="1.5" />
-      <circle cx="32" cy="32" r="3" fill="#0f766e" />
+      {/* Radiant Amber Topaz Squircle */}
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#prod-grad-vivid)" />
+      <rect x="2" y="2" width="60" height="60" rx="14" ry="14" stroke="#fef08a" strokeWidth="0.8" strokeOpacity="0.9" />
+
+      {/* Top soft shine */}
+      <ellipse cx="32" cy="12" rx="22" ry="7" fill="#ffffff" opacity="0.32" />
+
+      <g clipPath="url(#squircle-clip-prod-vivid)">
+        {/* 3D Hardware Box Package */}
+        <path d="M32 15 L49 24.5 L32 34 L15 24.5 Z" fill="#ffffff" />
+        <path d="M15 24.5 L32 34 L32 50 L15 40.5 Z" fill="#fef3c7" />
+        <path d="M32 34 L49 24.5 L49 40.5 L32 50 Z" fill="#fde68a" />
+        {/* Center fold crease & seal */}
+        <path d="M32 15 L32 34" stroke="#d97706" strokeWidth="1.6" strokeLinecap="round" />
+        <circle cx="32" cy="34" r="3.2" fill="#b45309" />
+        <circle cx="32" cy="34" r="1.5" fill="#ffffff" />
+      </g>
     </svg>
   );
 }
