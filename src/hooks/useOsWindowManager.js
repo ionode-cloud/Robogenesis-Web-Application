@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 
 const WALLPAPERS = [
-  { type: 'gradient' },
+  { type: 'slideshow', name: 'Dynamic Gallery (image1, image2, image3)' },
   { type: 'video', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260508_215831_c6a8989c-d716-4d8d-8745-e972a2eec711.mp4' },
   { type: 'video', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4' },
   { type: 'video', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260603_132049_036591b8-6e92-4760-b94c-a7ea6eef315c.mp4' },

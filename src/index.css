@@ -1950,6 +1950,43 @@ a {
     linear-gradient(160deg, #07152f 0%, #0f3265 40%, #0a2348 70%, #050c1b 100%);
 }
 
+/* macOS Dynamic Wallpaper Slideshow (image1, image2, image3) */
+.os-desktop-slideshow-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #040814;
+  z-index: 0;
+}
+
+.os-desktop-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 3.5s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  user-select: none;
+  will-change: opacity, transform;
+}
+
+.os-desktop-slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.os-desktop-slideshow-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(3, 7, 18, 0.12) 0%, rgba(3, 7, 18, 0.42) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .os-desktop-video-bg {
   position: absolute;
   inset: 0;
@@ -1969,7 +2006,7 @@ a {
   top: 0;
   left: 0;
   right: 0;
-  height: 42px;
+  height: 44px;
   background: rgba(15, 20, 35, 0.82);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -3475,7 +3512,7 @@ a {
   }
 
   .os-mb-logo {
-    height: 20px;
+    height: 26px;
   }
 
   .os-mb-clock {
@@ -11575,10 +11612,10 @@ a {
 }
 
 .os-mb-logo {
-  height: 22px;
+  height: 32px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
 }
 
 
