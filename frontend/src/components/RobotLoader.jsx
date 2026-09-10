@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import './RobotLoader.css';
 
 const DEFAULT_MESSAGES = [
   'Initializing Robogenesis System...',

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import './DesktopRobotCompanion.css';
 
 // Full-screen boundaries (covers entire macOS desktop below top menubar)
 const SCREEN_MIN_X = 12;

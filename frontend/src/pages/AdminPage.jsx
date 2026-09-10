@@ -28,7 +28,6 @@ import {
   FiLoader,
 } from 'react-icons/fi';
 import logoImg from '../assets/logo.png';
-import './AdminPage.css';
 
 export default function AdminPage({ onNavigate, onOpenLogin }) {
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'enquiries' | 'users' | 'credentials'

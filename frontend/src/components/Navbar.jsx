@@ -10,17 +10,23 @@ import {
   FiZap,
   FiMenu,
   FiX,
+  FiHome,
+  FiInfo,
+  FiCpu,
+  FiBox,
+  FiCode,
+  FiGlobe,
 } from 'react-icons/fi';
 import logoImg from '../assets/logo.png';
 import LoginModal from './LoginModal.jsx';
 
 const NAV_LINKS = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'domains', label: 'Domains' },
-  { id: 'products', label: 'Products' },
-  { id: 'web-development', label: 'Web Development' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'home', label: 'Home', icon: FiHome },
+  { id: 'about', label: 'About', icon: FiInfo },
+  { id: 'domains', label: 'Domains', icon: FiCpu },
+  { id: 'products', label: 'Products', icon: FiBox },
+  { id: 'web-development', label: 'Web Development', icon: FiCode },
+  { id: 'contact', label: 'Contact', icon: FiMail },
 ];
 
 export default function Navbar({
@@ -340,33 +346,55 @@ export default function Navbar({
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile menu backdrop */}
+        {mobileOpen && (
+          <div
+            className="mobile-menu-backdrop"
+            onClick={onToggleMobile}
+            aria-hidden="true"
+          />
+        )}
+
+        {/* Mobile menu drawer */}
         <div className={`mobile-menu${mobileOpen ? ' open' : ''}`}>
           <div className="mobile-nav-links">
-            {NAV_LINKS.map((l) => (
-              <button
-                key={l.id}
-                className={`mobile-nav-link${currentPage === l.id ? ' active' : ''}`}
-                onClick={() => {
-                  onNavigate(l.id);
-                  onToggleMobile();
-                }}
-              >
-                {l.label}
-              </button>
-            ))}
+            {NAV_LINKS.map((l) => {
+              const IconComp = l.icon;
+              return (
+                <button
+                  key={l.id}
+                  className={`mobile-nav-link${currentPage === l.id ? ' active' : ''}`}
+                  onClick={() => {
+                    onNavigate(l.id);
+                    onToggleMobile();
+                  }}
+                >
+                  <span className="mobile-nav-link-icon">
+                    <IconComp size={18} />
+                  </span>
+                  <span className="mobile-nav-link-text">{l.label}</span>
+                </button>
+              );
+            })}
+
+            <div className="mobile-menu-divider" />
+
             <button
-              className="mobile-nav-link"
+              className="mobile-nav-link highlight-robolab"
               onClick={() => {
                 onOpenOs();
                 onToggleMobile();
               }}
-              style={{ color: '#0a84ff', fontWeight: 700 }}
             >
-              Enter RoboLab
+              <span className="mobile-nav-link-icon">
+                <FiZap size={18} />
+              </span>
+              <span className="mobile-nav-link-text">Enter RoboLab</span>
+              <span className="mobile-nav-link-badge">OS</span>
             </button>
+
             <button
-              className="mobile-nav-link"
+              className="mobile-nav-link highlight-account"
               onClick={() => {
                 onToggleMobile();
                 if (user?.role === 'admin') {
@@ -379,9 +407,17 @@ export default function Navbar({
                   setIsLoginOpen(true);
                 }
               }}
-              style={{ color: '#15BCDF', fontWeight: 700 }}
             >
-              {user?.role === 'admin' ? '🛡️ Admin Panel' : (user ? `Account (${user.name})` : '👤 Sign In / Account')}
+              <span className="mobile-nav-link-icon">
+                {user?.role === 'admin' ? <FiShield size={18} /> : <FiUser size={18} />}
+              </span>
+              <span className="mobile-nav-link-text">
+                {user?.role === 'admin'
+                  ? 'Admin Panel'
+                  : user
+                  ? `Account (${user.name})`
+                  : 'Sign In / Account'}
+              </span>
             </button>
           </div>
         </div>
