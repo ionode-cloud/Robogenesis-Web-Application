@@ -28,6 +28,7 @@ import {
   FiLoader,
 } from 'react-icons/fi';
 import logoImg from '../assets/logo.png';
+import { SiGmail } from 'react-icons/si';
 
 export default function AdminPage({ onNavigate, onOpenLogin }) {
   const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
@@ -40,6 +41,32 @@ export default function AdminPage({ onNavigate, onOpenLogin }) {
   const [enquiries, setEnquiries] = useState([]);
   const [users, setUsers] = useState([]);
   const [adminProfile, setAdminProfile] = useState(null);
+
+  // Generate direct Gmail Compose URL for client enquiries
+  const getGmailComposeUrl = (enquiry) => {
+    if (!enquiry || !enquiry.email) return '#';
+    const to = enquiry.email.trim();
+    const domainStr = enquiry.domain ? ` (${enquiry.domain})` : '';
+    const subject = `Regarding your Robogenesis Enquiry${domainStr}`;
+    const body = `Dear ${enquiry.fullName || 'Client'},
+
+Thank you for contacting Robogenesis regarding your enquiry${domainStr}.
+
+Enquiry Details:
+• Type: ${enquiry.enquiryType || 'General Consultation'}
+• Domain: ${enquiry.domain || 'Robotics & Autonomous Systems'}
+• Source: ${enquiry.sourceTab || 'Website'}
+• Your Message: "${enquiry.message || ''}"
+
+We are reviewing your requirements and would be delighted to assist you further.
+
+Best regards,
+Robogenesis Team
+Autonomous Robotics & Smart Systems
+`;
+
+    return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
 
   // Filter states
   const [enquirySearch, setEnquirySearch] = useState('');
@@ -675,8 +702,11 @@ export default function AdminPage({ onNavigate, onOpenLogin }) {
                               </td>
                               <td>
                                 <a
-                                  href={`mailto:${enq.email}`}
-                                  style={{ color: '#0284c7', textDecoration: 'none', fontWeight: 600 }}
+                                  href={getGmailComposeUrl(enq)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="Open in Gmail"
+                                  style={{ color: '#0284c7', textDecoration: 'none', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                                 >
                                   {enq.email}
                                 </a>
@@ -904,8 +934,11 @@ export default function AdminPage({ onNavigate, onOpenLogin }) {
                               </td>
                               <td>
                                 <a
-                                  href={`mailto:${enq.email}`}
-                                  style={{ color: '#0284c7', textDecoration: 'none', fontWeight: 600 }}
+                                  href={getGmailComposeUrl(enq)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="Open in Gmail"
+                                  style={{ color: '#0284c7', textDecoration: 'none', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                                 >
                                   {enq.email}
                                 </a>
@@ -1394,10 +1427,13 @@ export default function AdminPage({ onNavigate, onOpenLogin }) {
               <div className="admin-cred-item">
                 <span className="admin-cred-label">Email:</span>
                 <a
-                  href={`mailto:${selectedEnquiry.email}`}
-                  style={{ color: '#0284c7', fontWeight: 600, textDecoration: 'none' }}
+                  href={getGmailComposeUrl(selectedEnquiry)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Open in Gmail"
+                  style={{ color: '#0284c7', fontWeight: 600, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
                 >
-                  {selectedEnquiry.email}
+                  <SiGmail size={13} style={{ color: '#ea4335' }} /> {selectedEnquiry.email}
                 </a>
               </div>
               <div className="admin-cred-item">
@@ -1467,19 +1503,22 @@ export default function AdminPage({ onNavigate, onOpenLogin }) {
 
             <div className="admin-modal-actions">
               <a
-                href={`mailto:${selectedEnquiry.email}?subject=Regarding your Robogenesis Enquiry (${selectedEnquiry.domain})`}
+                href={getGmailComposeUrl(selectedEnquiry)}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn-admin-submit-action"
+                title="Compose and send reply using Gmail in a new tab"
                 style={{
                   textDecoration: 'none',
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '6px',
+                  gap: '7px',
                   width: 'auto',
                   padding: '10px 18px',
                 }}
               >
-                <FiMail size={15} /> Reply via Email
+                <SiGmail size={15} /> Reply via Email
               </a>
               <button
                 className="btn-table-action"
