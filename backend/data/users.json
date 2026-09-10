@@ -7,6 +7,46 @@
     "role": "user",
     "labAccess": "Level 3 Pro",
     "createdAt": "2026-09-08T17:22:38.353Z",
-    "lastLogin": "2026-09-08T16:44:06.739Z"
+    "lastLogin": "2026-09-10T12:39:52.243Z"
+  },
+  {
+    "id": "usr_1789042932835_d8pxv",
+    "name": "Test User",
+    "email": "testuser@example.com",
+    "passwordHash": "$2a$10$ueIfYhvyPlpt8A6NllFymOOoW3WvwJ4dXkwmAsm9NC/4pKDbZJzRa",
+    "role": "user",
+    "labAccess": "Level 3 Pro",
+    "createdAt": "2026-09-10T12:22:12.835Z",
+    "lastLogin": null
+  },
+  {
+    "id": "usr_1789042948829_scije",
+    "name": "Test User 2",
+    "email": "testuser2@example.com",
+    "passwordHash": "$2a$10$x3a45C1AH3B8mEq34dItW.KH9Eaw763QVZzXOsLU3waJnCx7XWBjK",
+    "role": "user",
+    "labAccess": "Level 3 Pro",
+    "createdAt": "2026-09-10T12:22:28.829Z",
+    "lastLogin": null
+  },
+  {
+    "id": "usr_1789043289397_h6ktk",
+    "name": "Antigravity Tester",
+    "email": "agytester@example.com",
+    "passwordHash": "$2a$10$kVLS3/PmPI2WuPTowP06K.tHtGNlxVr6CnByeuZPHQ5SKcCOO1cCO",
+    "role": "user",
+    "labAccess": "Level 3 Pro",
+    "createdAt": "2026-09-10T12:28:09.397Z",
+    "lastLogin": "2026-09-10T12:28:52.816Z"
+  },
+  {
+    "id": "usr_1789043902339_ej05m",
+    "name": "Robo Engineer",
+    "email": "user_1789043901@robogenesis.com",
+    "passwordHash": "$2a$10$1DU4X8/dN3aGoa/k9iRT6.Pwk539zOtWt30EQX1qzGecry/Zx1Wly",
+    "labAccess": "Level 3 Pro",
+    "role": "user",
+    "createdAt": "2026-09-10T12:38:22.339Z",
+    "lastLogin": "2026-09-10T12:38:22.518Z"
   }
 ]

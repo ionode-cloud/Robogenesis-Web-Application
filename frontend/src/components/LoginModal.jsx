@@ -70,8 +70,9 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
   useEffect(() => {
     if (isOpen && user && user.role !== 'admin') {
       setLoadingEnquiries(true);
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
       const token = localStorage.getItem('robogenesis_token') || '';
-      fetch(`/api/contact/my-enquiries?email=${encodeURIComponent(user.email)}`, {
+      fetch(`${API_BASE}/api/contact/my-enquiries?email=${encodeURIComponent(user.email)}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -106,10 +107,12 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
     setIsLoading(true);
     setFeedback(null);
 
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
     try {
       if (authMode === 'signup') {
         // Register user in backend
-        const res = await fetch('/api/auth/register', {
+        const res = await fetch(`${API_BASE}/api/auth/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -119,9 +122,9 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
           }),
         });
 
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         if (!res.ok) {
-          throw new Error(data.error || 'Registration failed.');
+          throw new Error(data.error || 'Registration failed. Please try again.');
         }
 
         setFeedback({
@@ -136,7 +139,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
         }, 1100);
       } else {
         // Sign in
-        const res = await fetch('/api/auth/login', {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -145,17 +148,17 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
           }),
         });
 
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         if (!res.ok) {
-          if (data.needRegistration) {
+          if (data.needRegistration || res.status === 404 || (res.status === 400 && data.needRegistration)) {
             setFeedback({
               type: 'error',
-              text: 'Account not found. You must register first before logging in!',
+              text: data.error || 'Account not found. You must register first before logging in!',
               needRegistration: true,
             });
             return;
           }
-          throw new Error(data.error || 'Authentication failed.');
+          throw new Error(data.error || 'Authentication failed. Please check your credentials.');
         }
 
         if (data.token) {

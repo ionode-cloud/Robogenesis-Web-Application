@@ -114,7 +114,7 @@ export const AuthController = {
       const user = Storage.findUserByEmail(cleanEmail);
       if (!user) {
         // Enforce registration requirement
-        return res.status(404).json({
+        return res.status(400).json({
           error: 'Account not found. You must register first before logging in!',
           needRegistration: true,
         });

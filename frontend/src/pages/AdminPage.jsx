@@ -30,6 +30,7 @@ import {
 import logoImg from '../assets/logo.png';
 
 export default function AdminPage({ onNavigate, onOpenLogin }) {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'enquiries' | 'users' | 'credentials'
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -115,9 +116,9 @@ export default function AdminPage({ onNavigate, onOpenLogin }) {
 
     try {
       const [enqRes, usersRes, credRes] = await Promise.all([
-        fetch('/api/admin/enquiries', { headers }),
-        fetch('/api/admin/users', { headers }),
-        fetch('/api/admin/credentials', { headers }),
+        fetch(`${API_BASE}/api/admin/enquiries`, { headers }),
+        fetch(`${API_BASE}/api/admin/users`, { headers }),
+        fetch(`${API_BASE}/api/admin/credentials`, { headers }),
       ]);
 
       if (enqRes.ok) {
@@ -150,7 +151,7 @@ export default function AdminPage({ onNavigate, onOpenLogin }) {
   // Handle Enquiry Status Update
   const handleUpdateStatus = async (id, nextStatus) => {
     try {
-      const res = await fetch(`/api/admin/enquiries/${id}/status`, {
+      const res = await fetch(`${API_BASE}/api/admin/enquiries/${id}/status`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -179,7 +180,7 @@ export default function AdminPage({ onNavigate, onOpenLogin }) {
     }
 
     try {
-      const res = await fetch(`/api/admin/enquiries/${id}`, {
+      const res = await fetch(`${API_BASE}/api/admin/enquiries/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -220,8 +221,8 @@ export default function AdminPage({ onNavigate, onOpenLogin }) {
     setIsSavingCred(true);
     try {
       const url = editingAdminId
-        ? `/api/admin/credentials/${editingAdminId}`
-        : '/api/admin/credentials';
+        ? `${API_BASE}/api/admin/credentials/${editingAdminId}`
+        : `${API_BASE}/api/admin/credentials`;
       const method = editingAdminId ? 'PUT' : 'POST';
 
       const payload = {
@@ -300,7 +301,7 @@ export default function AdminPage({ onNavigate, onOpenLogin }) {
     }
 
     try {
-      const res = await fetch(`/api/admin/credentials/${id}`, {
+      const res = await fetch(`${API_BASE}/api/admin/credentials/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
