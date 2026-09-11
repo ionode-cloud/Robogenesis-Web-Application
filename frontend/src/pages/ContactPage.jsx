@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { CONTACT_INFO, ENQUIRY_TYPES, DOMAIN_OPTIONS } from '../data/contactConfig.js';
+import { getApiUrl } from '../config/api.js';
 
 function ContactForm({ navParams, selectedEnquiryType }) {
   const [formData, setFormData] = useState({
@@ -132,8 +133,7 @@ function ContactForm({ navParams, selectedEnquiryType }) {
     setIsSubmitting(true);
     setServerError('');
 
-    const base = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '');
-    const endpoint = `${base}/api/contact`;
+    const endpoint = getApiUrl('/api/contact');
 
     try {
       const response = await fetch(endpoint, {

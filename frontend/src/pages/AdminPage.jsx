@@ -29,9 +29,10 @@ import {
 } from 'react-icons/fi';
 import logoImg from '../assets/logo.png';
 import { SiGmail } from 'react-icons/si';
+import { getApiBaseUrl } from '../config/api.js';
 
 export default function AdminPage({ onNavigate, onOpenLogin }) {
-  const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '');
+  const API_BASE = getApiBaseUrl();
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'enquiries' | 'users' | 'credentials'
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

@@ -23,21 +23,44 @@ connectDB().then((connected) => {
   }
 });
 
+const ALLOWED_ORIGINS = [
+  'https://robogenesis.in',
+  'https://www.robogenesis.in',
+  'http://robogenesis.in',
+  'http://www.robogenesis.in',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:5000',
+];
+
 // Middleware
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, or same-origin)
+      // Allow requests with no origin (e.g. mobile apps, server-to-server, curl)
       if (!origin) return callback(null, true);
+      
       // Allow localhost and local IP addresses
       if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
         return callback(null, true);
       }
-      // Allow any Vercel deployment domain
+      
+      // Allow robogenesis.in and any subdomains
+      if (/^https?:\/\/([a-zA-Z0-9-]+\.)?robogenesis\.in$/.test(origin)) {
+        return callback(null, true);
+      }
+
+      // Allow any Vercel deployment preview/production URL
       if (origin.endsWith('.vercel.app')) {
         return callback(null, true);
       }
-      // Allow all configured or custom domains
+
+      // Explicit whitelist match
+      if (ALLOWED_ORIGINS.includes(origin)) {
+        return callback(null, true);
+      }
+
+      // Fallback: reflect the origin to allow modern cross-origin clients
       return callback(null, true);
     },
     credentials: true,
@@ -60,7 +83,19 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Health Check
+// Root Health / Status Endpoints
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    service: 'Robogenesis Enterprise Backend API',
+    domain: 'api.robogenesis.in',
+    frontend: 'https://robogenesis.in',
+    api: '/api',
+    health: '/api/health',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',

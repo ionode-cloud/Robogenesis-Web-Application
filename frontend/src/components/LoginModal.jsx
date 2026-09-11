@@ -15,6 +15,7 @@ import {
   FiClock,
 } from 'react-icons/fi';
 import logoImg from '../assets/logo.png';
+import { getApiUrl } from '../config/api.js';
 
 export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLogout, onOpenAdmin, onNavigate, initialMode = 'login' }) {
   const [authMode, setAuthMode] = useState(initialMode); // 'login' | 'signup'
@@ -66,11 +67,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
     }
   }, [isOpen, user, onClose, onOpenAdmin]);
 
-  const getApiEndpoint = (endpoint) => {
-    const base = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '');
-    const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-    return `${base}${path}`;
-  };
+  const getApiEndpoint = (endpoint) => getApiUrl(endpoint);
 
   // Fetch enquiries submitted by logged-in user
   useEffect(() => {

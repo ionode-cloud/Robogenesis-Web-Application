@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import logoImg from '../assets/logo.png';
+import { getApiUrl } from '../config/api.js';
 
 const EARTH_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260613_180732_a54afbf6-b30d-470e-861f-669871f09f67.mp4';
 
@@ -62,8 +63,7 @@ export default function FooterSection({ onOpenOs, onNavigate }) {
     setNlLoading(true);
     setNlStatus(null);
     try {
-      const base = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '');
-      const res = await fetch(`${base}/api/contact`, {
+      const res = await fetch(getApiUrl('/api/contact'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
