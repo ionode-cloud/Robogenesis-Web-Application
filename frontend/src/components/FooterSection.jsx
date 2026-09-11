@@ -62,8 +62,8 @@ export default function FooterSection({ onOpenOs, onNavigate }) {
     setNlLoading(true);
     setNlStatus(null);
     try {
-      const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
-      const res = await fetch(`${API_BASE}/api/contact`, {
+      const base = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '');
+      const res = await fetch(`${base}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

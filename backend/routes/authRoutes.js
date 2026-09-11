@@ -4,24 +4,29 @@ import { verifyToken } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
-router.post('/register', AuthController.register);
-router.post('/login', AuthController.login);
-router.get('/me', verifyToken, AuthController.me);
+// Authentication Endpoints (POST)
+router.post(['/register', '/register/'], AuthController.register);
+router.post(['/login', '/login/'], AuthController.login);
+router.get(['/me', '/me/'], verifyToken, AuthController.me);
 
-// Informational handlers for GET requests to prevent confusing 404s
-router.get('/login', (req, res) => {
-  res.status(405).json({
-    error: 'Method Not Allowed. Please send a POST request with email and password to log in, or use the Robogenesis web portal interface.',
+// Informational handlers for GET requests to verify endpoint availability without 405 errors
+router.get(['/login', '/login/'], (req, res) => {
+  res.status(200).json({
+    status: 'online',
     endpoint: '/api/auth/login',
-    method: 'POST',
+    service: 'Robogenesis Authentication Service',
+    message: 'Login endpoint is operational. Submit credentials via POST request with { email, password } payload.',
+    methodRequired: 'POST',
   });
 });
 
-router.get('/register', (req, res) => {
-  res.status(405).json({
-    error: 'Method Not Allowed. Please send a POST request with fullName, email, and password to register, or use the Robogenesis web portal interface.',
+router.get(['/register', '/register/'], (req, res) => {
+  res.status(200).json({
+    status: 'online',
     endpoint: '/api/auth/register',
-    method: 'POST',
+    service: 'Robogenesis Registration Service',
+    message: 'Register endpoint is operational. Submit details via POST request with { fullName, email, password } payload.',
+    methodRequired: 'POST',
   });
 });
 

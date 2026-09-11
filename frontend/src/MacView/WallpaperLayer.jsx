@@ -4,6 +4,9 @@ import image2 from '../assets/image2.jpg';
 import image3 from '../assets/image3.jpg';
 import image4 from '../assets/image4.jpg';
 import image5 from '../assets/image5.jpg';
+import image6 from '../assets/image6.jpg';
+import image7 from '../assets/image7.jpg';
+import image8 from '../assets/image8.jpg';
 
 export const WALLPAPER_SLIDES = [
   { id: 'image1', src: image1, title: 'RoboLab Background 1' },
@@ -11,12 +14,15 @@ export const WALLPAPER_SLIDES = [
   { id: 'image3', src: image3, title: 'RoboLab Background 3' },
   { id: 'image4', src: image4, title: 'RoboLab Background 4' },
   { id: 'image5', src: image5, title: 'RoboLab Background 5' },
+  { id: 'image6', src: image6, title: 'RoboLab Background 6' },
+  { id: 'image7', src: image7, title: 'RoboLab Background 7' },
+  { id: 'image8', src: image8, title: 'RoboLab Background 8' },
 ];
 
 export default function WallpaperLayer({ wallpaper }) {
   const [activeIdx, setActiveIdx] = useState(0);
 
-  // Dynamic slideshow automatically cycles across image1, image2, image3, image4, image5
+  // Dynamic slideshow automatically cycles across images 1 to 8
   useEffect(() => {
     if (wallpaper?.type && wallpaper.type !== 'slideshow') return;
 
@@ -44,7 +50,9 @@ export default function WallpaperLayer({ wallpaper }) {
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'rgba(5, 11, 24, 0.45)',
+            background:
+              'linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, transparent 80px, transparent calc(100% - 100px), rgba(0, 0, 0, 0.14) 100%)',
+            pointerEvents: 'none',
           }}
         />
       </div>
@@ -66,7 +74,7 @@ export default function WallpaperLayer({ wallpaper }) {
     );
   }
 
-  // Default Dynamic Slideshow Mode (all 5 images: image1, image2, image3, image4, image5)
+  // Default Dynamic Slideshow Mode (images 1 to 8: image1 through image8)
   return (
     <div className="os-desktop-slideshow-container" aria-label="RoboLab Dynamic Workspace Background">
       {WALLPAPER_SLIDES.map((slide, idx) => (

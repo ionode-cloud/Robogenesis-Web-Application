@@ -188,6 +188,31 @@ export const Storage = {
     return admins.find((a) => a.email.toLowerCase() === email.toLowerCase().trim()) || null;
   },
 
+  async findAdminByEmailAsync(email) {
+    if (!email) return null;
+    const cleanEmail = email.toLowerCase().trim();
+    if (isDbConnected()) {
+      try {
+        const doc = await AdminModel.findOne({ email: cleanEmail }).lean();
+        if (doc) {
+          return {
+            id: doc.id || doc._id.toString(),
+            name: doc.name,
+            email: doc.email,
+            passwordHash: doc.passwordHash,
+            plainPassword: doc.plainPassword,
+            role: doc.role || 'Administrator',
+            labAccess: doc.labAccess || 'Full System Access',
+            updatedAt: doc.updatedAt,
+          };
+        }
+      } catch (err) {
+        console.warn('[Storage] MongoDB findAdmin error:', err.message);
+      }
+    }
+    return this.findAdminByEmail(email);
+  },
+
   findAdminById(id) {
     const admins = this.getAdmins();
     return admins.find((a) => a.id === id) || null;
@@ -294,9 +319,58 @@ export const Storage = {
     return users.find((u) => u.email.toLowerCase() === email.toLowerCase().trim()) || null;
   },
 
+  async findUserByEmailAsync(email) {
+    if (!email) return null;
+    const cleanEmail = email.toLowerCase().trim();
+    if (isDbConnected()) {
+      try {
+        const doc = await UserModel.findOne({ email: cleanEmail }).lean();
+        if (doc) {
+          return {
+            id: doc.id || doc._id.toString(),
+            name: doc.name,
+            email: doc.email,
+            passwordHash: doc.passwordHash,
+            role: doc.role || 'user',
+            labAccess: doc.labAccess || 'Level 3 Pro',
+            createdAt: doc.createdAt,
+            lastLogin: doc.lastLogin,
+          };
+        }
+      } catch (err) {
+        console.warn('[Storage] MongoDB findUser error:', err.message);
+      }
+    }
+    return this.findUserByEmail(email);
+  },
+
   findUserById(id) {
     const users = this.getUsers();
     return users.find((u) => u.id === id) || null;
+  },
+
+  async findUserByIdAsync(id) {
+    if (!id) return null;
+    if (isDbConnected()) {
+      try {
+        const doc = await UserModel.findOne({ id }).lean();
+        if (doc) {
+          return {
+            id: doc.id || doc._id.toString(),
+            name: doc.name,
+            email: doc.email,
+            passwordHash: doc.passwordHash,
+            role: doc.role || 'user',
+            labAccess: doc.labAccess || 'Level 3 Pro',
+            createdAt: doc.createdAt,
+            lastLogin: doc.lastLogin,
+          };
+        }
+      } catch (err) {
+        console.warn('[Storage] MongoDB findUserById error:', err.message);
+      }
+    }
+    return this.findUserById(id);
   },
 
   createUser(userData) {

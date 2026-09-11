@@ -66,13 +66,18 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
     }
   }, [isOpen, user, onClose, onOpenAdmin]);
 
+  const getApiEndpoint = (endpoint) => {
+    const base = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '');
+    const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    return `${base}${path}`;
+  };
+
   // Fetch enquiries submitted by logged-in user
   useEffect(() => {
     if (isOpen && user && user.role !== 'admin') {
       setLoadingEnquiries(true);
-      const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
       const token = localStorage.getItem('robogenesis_token') || '';
-      fetch(`${API_BASE}/api/contact/my-enquiries?email=${encodeURIComponent(user.email)}`, {
+      fetch(getApiEndpoint(`/api/contact/my-enquiries?email=${encodeURIComponent(user.email)}`), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -107,12 +112,11 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
     setIsLoading(true);
     setFeedback(null);
 
-    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
-
     try {
       if (authMode === 'signup') {
         // Register user in backend
-        const res = await fetch(`${API_BASE}/api/auth/register`, {
+        const registerUrl = getApiEndpoint('/api/auth/register');
+        const res = await fetch(registerUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -124,6 +128,9 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
 
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
+          if (res.status === 405) {
+            throw new Error('API server returned 405 (Method Not Allowed). Backend API route or serverless function is not active on this domain.');
+          }
           throw new Error(data.error || 'Registration failed. Please try again.');
         }
 
@@ -139,7 +146,8 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
         }, 1100);
       } else {
         // Sign in
-        const res = await fetch(`${API_BASE}/api/auth/login`, {
+        const loginUrl = getApiEndpoint('/api/auth/login');
+        const res = await fetch(loginUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -150,6 +158,9 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
 
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
+          if (res.status === 405) {
+            throw new Error('API server returned 405 (Method Not Allowed). Backend API route or serverless function is not active on this domain.');
+          }
           if (data.needRegistration || res.status === 404 || (res.status === 400 && data.needRegistration)) {
             setFeedback({
               type: 'error',
@@ -185,7 +196,13 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, user, onLo
         }, 850);
       }
     } catch (err) {
-      setFeedback({ type: 'error', text: err.message });
+      const errMsg = err?.message || 'Authentication request failed.';
+      setFeedback({
+        type: 'error',
+        text: errMsg.includes('Failed to fetch')
+          ? 'Cannot connect to backend server. Please verify backend service is active.'
+          : errMsg,
+      });
     } finally {
       setIsLoading(false);
     }

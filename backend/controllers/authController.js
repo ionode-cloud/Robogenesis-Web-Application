@@ -16,7 +16,7 @@ function generateInitials(name) {
 
 export const AuthController = {
   // Register New User
-  register(req, res) {
+  async register(req, res) {
     try {
       const { fullName, email, password } = req.body;
 
@@ -31,7 +31,7 @@ export const AuthController = {
       }
 
       const cleanEmail = email.trim().toLowerCase();
-      const admin = Storage.findAdminByEmail(cleanEmail);
+      const admin = await Storage.findAdminByEmailAsync(cleanEmail);
 
       // Check if email matches admin
       if (admin) {
@@ -39,7 +39,7 @@ export const AuthController = {
       }
 
       // Check if user already exists
-      const existingUser = Storage.findUserByEmail(cleanEmail);
+      const existingUser = await Storage.findUserByEmailAsync(cleanEmail);
       if (existingUser) {
         return res.status(400).json({ error: 'An account with this email already exists. Please sign in.' });
       }
@@ -72,7 +72,7 @@ export const AuthController = {
   },
 
   // Login (User or Admin)
-  login(req, res) {
+  async login(req, res) {
     try {
       const { email, password } = req.body;
 
@@ -81,7 +81,7 @@ export const AuthController = {
       }
 
       const cleanEmail = email.trim().toLowerCase();
-      const admin = Storage.findAdminByEmail(cleanEmail);
+      const admin = await Storage.findAdminByEmailAsync(cleanEmail);
 
       // 1. Check if trying to log in as Admin
       if (admin) {
@@ -111,7 +111,7 @@ export const AuthController = {
       }
 
       // 2. Regular User Login: MUST BE REGISTERED FIRST
-      const user = Storage.findUserByEmail(cleanEmail);
+      const user = await Storage.findUserByEmailAsync(cleanEmail);
       if (!user) {
         // Enforce registration requirement
         return res.status(400).json({
@@ -154,7 +154,7 @@ export const AuthController = {
   },
 
   // Get current authenticated user profile
-  me(req, res) {
+  async me(req, res) {
     try {
       if (req.user.role === 'admin') {
         const admin = Storage.getAdmin();
@@ -170,7 +170,7 @@ export const AuthController = {
         });
       }
 
-      const user = Storage.findUserById(req.user.id);
+      const user = await Storage.findUserByIdAsync(req.user.id);
       if (!user) {
         return res.status(404).json({ error: 'User profile not found.' });
       }

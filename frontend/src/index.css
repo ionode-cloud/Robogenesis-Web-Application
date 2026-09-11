@@ -2301,7 +2301,7 @@ a {
   height: 100vh;
   height: 100dvh;
   z-index: 9999;
-  background: #050b18;
+  background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 100%);
   display: none;
   overflow: hidden;
   font-family: 'Outfit', sans-serif;
@@ -2328,18 +2328,18 @@ a {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 120% 80% at 20% 110%, #1555a0 0%, transparent 55%),
-    radial-gradient(ellipse 80% 60% at 85% -10%, #22125a 0%, transparent 50%),
-    radial-gradient(ellipse 70% 80% at 50% 45%, #103b78 0%, transparent 65%),
-    linear-gradient(160deg, #07152f 0%, #0f3265 40%, #0a2348 70%, #050c1b 100%);
+    radial-gradient(ellipse 120% 80% at 20% 110%, #1d4ed8 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 85% -10%, #312e81 0%, transparent 50%),
+    radial-gradient(ellipse 70% 80% at 50% 45%, #1e40af 0%, transparent 65%),
+    linear-gradient(160deg, #0f172a 0%, #1e3a8a 40%, #1e293b 70%, #0f172a 100%);
 }
 
-/* macOS Dynamic Wallpaper Slideshow (image1, image2, image3) */
+/* macOS Dynamic Wallpaper Slideshow (image1 through image8) */
 .os-desktop-slideshow-container {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #040814;
+  background: #0f172a;
   z-index: 0;
 }
 
@@ -2356,6 +2356,7 @@ a {
   pointer-events: none;
   user-select: none;
   will-change: opacity, transform;
+  filter: contrast(1.04) brightness(1.08) saturate(1.08);
 }
 
 .os-desktop-slide.active {
@@ -2366,7 +2367,13 @@ a {
 .os-desktop-slideshow-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(3, 7, 18, 0.12) 0%, rgba(3, 7, 18, 0.42) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.10) 0%,
+    transparent 70px,
+    transparent calc(100% - 100px),
+    rgba(0, 0, 0, 0.12) 100%
+  );
   pointer-events: none;
   z-index: 1;
 }
@@ -2377,24 +2384,24 @@ a {
   display: none;
   align-items: center;
   justify-content: center;
-  opacity: 0.85;
+  opacity: 1;
 }
 
 .os-desktop-video-bg.active {
   display: flex;
 }
 
-/* macOS Menubar */
+/* macOS Menubar - Clean, Luminous Frosted Glass */
 .os-menubar {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 44px;
-  background: rgba(15, 20, 35, 0.82);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(32px) saturate(210%) brightness(1.08);
+  -webkit-backdrop-filter: blur(32px) saturate(210%) brightness(1.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
   display: flex;
   align-items: center;
   padding: 0 18px;
@@ -2402,7 +2409,8 @@ a {
   color: #ffffff;
   z-index: 1000;
   user-select: none;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
 }
 
 .os-mb-left {
@@ -2420,29 +2428,29 @@ a {
 
 .os-back-btn,
 .os-mb-landing-btn {
-  background: #ffffff;
-  color: #090d16;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
   padding: 6px 14px;
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 700;
-  border: 1px solid #ffffff;
+  border: 1px solid rgba(255, 255, 255, 1);
   transition: all 0.18s ease;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   font-family: inherit;
   white-space: nowrap;
 }
 
 .os-back-btn:hover,
 .os-mb-landing-btn:hover {
-  background: #f8fafc;
-  color: #000000;
+  background: #ffffff;
+  color: #0284c7;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
 }
 
 .os-mb-direct-nav {
@@ -2520,7 +2528,7 @@ a {
 
 .os-mb-menu-btn:hover,
 .os-mb-menu.open .os-mb-menu-btn {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.28);
   color: #ffffff;
 }
 
@@ -2532,16 +2540,16 @@ a {
 
 .os-mb-dropdown {
   position: absolute;
-  top: calc(100% + 2px);
+  top: calc(100% + 4px);
   left: 0;
-  min-width: 210px;
-  background: rgba(24, 28, 44, 0.97);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.4);
-  padding: 5px;
+  min-width: 220px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 6px;
   display: none;
   z-index: 9999;
   animation: ddFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
@@ -2567,17 +2575,18 @@ a {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 7px 12px;
-  border-radius: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  color: #0f172a;
   cursor: pointer;
-  transition: background 0.1s, color 0.1s;
+  transition: background 0.12s, color 0.12s;
   white-space: nowrap;
 }
 
 .os-mb-dd-item:hover {
-  background: var(--accent);
+  background: #0284c7;
   color: #ffffff;
 }
 
@@ -2593,24 +2602,25 @@ a {
 .os-mb-dd-item .dd-shortcut {
   margin-left: auto;
   font-size: 11px;
-  opacity: 0.45;
+  opacity: 0.5;
   font-family: 'DM Mono', monospace;
 }
 
 .os-mb-dd-sep {
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.08);
   margin: 4px 6px;
 }
 
-/* OS Window */
+/* OS Window - Modern Luminous macOS Frame */
 .os-win {
   position: absolute;
-  background: rgba(24, 28, 42, 0.88);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: var(--radius-md);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+  background: rgba(18, 24, 40, 0.82);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 14px;
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   overflow: hidden;
   display: none;
   flex-direction: column;
@@ -2637,13 +2647,14 @@ a {
 
 .os-win.focused {
   z-index: 200;
-  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .os-win-titlebar {
-  height: 38px;
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  height: 40px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   display: flex;
   align-items: center;
   padding: 0 14px;
@@ -2651,6 +2662,8 @@ a {
   cursor: move;
   position: relative;
   user-select: none;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .os-win-btn {
@@ -2708,7 +2721,8 @@ a {
   transform: translateX(-50%);
   font-size: 13px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.75);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
   pointer-events: none;
   max-width: calc(100% - 92px);
   white-space: nowrap;
@@ -2732,23 +2746,23 @@ a {
   cursor: se-resize;
 }
 
-/* OS Dock */
+/* OS Dock - Clean, Ultra-Luminous Frosted Glass */
 .os-dock {
   position: absolute;
   bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 20px;
-  padding: 6px 12px 8px;
+  background: rgba(255, 255, 255, 0.36);
+  backdrop-filter: blur(40px) saturate(220%) brightness(1.1);
+  -webkit-backdrop-filter: blur(40px) saturate(220%) brightness(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 22px;
+  padding: 7px 14px 9px;
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.48), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.22), inset 0 1.5px 2px rgba(255, 255, 255, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.25) inset;
 }
 
 .os-dock-icon {
@@ -2768,7 +2782,7 @@ a {
   width: 100%;
   height: 100%;
   display: block;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
   transition: filter 0.22s ease;
 }
 
@@ -2778,7 +2792,7 @@ a {
 }
 
 .os-dock-icon:hover svg {
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
 }
 
 .os-dock-tooltip {
@@ -2786,20 +2800,20 @@ a {
   bottom: calc(100% + 14px);
   left: 50%;
   transform: translateX(-50%) translateY(6px);
-  background: rgba(18, 22, 34, 0.85);
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  color: #0f172a;
   font-size: 11.5px;
-  font-weight: 500;
+  font-weight: 600;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
-  padding: 4px 10px;
-  border-radius: 7px;
+  padding: 5px 12px;
+  border-radius: 8px;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border: 0.5px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   transition: opacity 0.16s ease, transform 0.16s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -2832,9 +2846,9 @@ a {
 }
 
 .os-dock-sep {
-  width: 1px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.22);
+  width: 1.5px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.5);
   margin: 0 4px;
   align-self: center;
 }
@@ -3731,14 +3745,14 @@ a {
   flex-direction: column;
   align-items: center;
   gap: 1px;
-  background: rgba(10, 15, 29, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 6px;
   padding: 3px 8px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
-  max-width: 92px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  max-width: 96px;
   text-align: center;
   transition: all 0.18s ease;
   pointer-events: none;
@@ -3746,7 +3760,7 @@ a {
 
 .os-desktop-icon:hover .os-di-label {
   background: rgba(2, 132, 199, 0.92);
-  border-color: rgba(125, 211, 252, 0.6);
+  border-color: rgba(255, 255, 255, 0.6);
   box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
 }
 

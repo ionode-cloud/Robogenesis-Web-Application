@@ -4,14 +4,20 @@ import image2 from '../assets/image2.jpg';
 import image3 from '../assets/image3.jpg';
 import image4 from '../assets/image4.jpg';
 import image5 from '../assets/image5.jpg';
+import image6 from '../assets/image6.jpg';
+import image7 from '../assets/image7.jpg';
+import image8 from '../assets/image8.jpg';
 
 const WALLPAPERS = [
-  { type: 'slideshow', name: 'Dynamic Slideshow (Images 1–5)' },
+  { type: 'slideshow', name: 'Dynamic Slideshow (Images 1–8)' },
   { type: 'image', src: image1, name: 'RoboLab Image 1' },
   { type: 'image', src: image2, name: 'RoboLab Image 2' },
   { type: 'image', src: image3, name: 'RoboLab Image 3' },
   { type: 'image', src: image4, name: 'RoboLab Image 4' },
   { type: 'image', src: image5, name: 'RoboLab Image 5' },
+  { type: 'image', src: image6, name: 'RoboLab Image 6' },
+  { type: 'image', src: image7, name: 'RoboLab Image 7' },
+  { type: 'image', src: image8, name: 'RoboLab Image 8' },
   { type: 'video', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260508_215831_c6a8989c-d716-4d8d-8745-e972a2eec711.mp4' },
   { type: 'video', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4' },
   { type: 'video', src: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260603_132049_036591b8-6e92-4760-b94c-a7ea6eef315c.mp4' },

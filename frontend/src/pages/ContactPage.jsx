@@ -132,8 +132,8 @@ function ContactForm({ navParams, selectedEnquiryType }) {
     setIsSubmitting(true);
     setServerError('');
 
-    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
-    const endpoint = `${API_BASE}/api/contact`;
+    const base = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '');
+    const endpoint = `${base}/api/contact`;
 
     try {
       const response = await fetch(endpoint, {
@@ -144,13 +144,21 @@ function ContactForm({ navParams, selectedEnquiryType }) {
 
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
+        if (response.status === 405) {
+          throw new Error('API server responded with 405 Method Not Allowed. Backend API endpoint is not active.');
+        }
         throw new Error(data.error || 'Server returned an error status.');
       }
 
       await new Promise((resolve) => setTimeout(resolve, 400));
       setIsSuccess(true);
     } catch (err) {
-      setServerError(err.message || 'Something went wrong. Please try again or contact us directly.');
+      const msg = err?.message || '';
+      setServerError(
+        msg.includes('Failed to fetch')
+          ? 'Cannot connect to backend server. Please verify your network or backend service.'
+          : msg || 'Something went wrong. Please try again or contact us directly.'
+      );
     } finally {
       setIsSubmitting(false);
     }

@@ -1,12 +1,12 @@
 [
   {
     "id": "adm_root",
-    "email": "admin@robogenesis.com",
-    "passwordHash": "$2a$10$DYdnsF4vxebiftfq1KSBiuGn3cXho3XGm0ELmggmnbAnkzFk8tdky",
     "name": "Robogenesis Administrator",
+    "email": "admin@robogenesis.com",
+    "passwordHash": "$2a$10$tMCG8k38Kpo6tK4Pb22F5O3bvSAUY8cDNP.P3laUt1RWjmn7i9.0K",
     "plainPassword": "123456",
     "role": "Root Administrator",
     "labAccess": "Full System Root",
-    "updatedAt": "2026-09-10T12:57:43.507Z"
+    "updatedAt": "2026-09-08T17:22:38.015Z"
   }
 ]
