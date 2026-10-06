@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useOsWindowManager } from '../hooks/useOsWindowManager.js';
 import MacOSMenubar from './MacOSMenubar.jsx';
 import MacOSDock from './MacOSDock.jsx';
@@ -12,6 +12,14 @@ import WinSectionWebDev from './windows/WinSectionWebDev.jsx';
 import WinSectionContact from './windows/WinSectionContact.jsx';
 import WinConsole from './windows/WinConsole.jsx';
 import DesktopRobotCompanion from './DesktopRobotCompanion.jsx';
+import DateTimeWidget from './widgets/DateTimeWidget.jsx';
+import WorkingStatusWidget from './widgets/WorkingStatusWidget.jsx';
+
+// Helper: 6:00 AM (06:00) to 6:00 PM (18:00) is Morning; otherwise Night
+const isMorningHour = () => {
+  const h = new Date().getHours();
+  return h >= 6 && h < 18;
+};
 
 export default function MacOSDesktop({ isOpen, onClose }) {
   const {
@@ -19,18 +27,55 @@ export default function MacOSDesktop({ isOpen, onClose }) {
     minimizedWindows,
     zIndexMap,
     focusedWindow,
-    wallpaper,
     openMenu,
     openWin,
     minimizeWin,
     showOnlyWin,
     closeWin,
     focusWin,
-    cycleWallpaper,
-    setWallpaper,
     toggleMenu,
     closeAllMenus,
   } = useOsWindowManager();
+
+  // Dynamic Theme Mode: 'morning' (#595CFF -> #C6F8FF) or 'night' (#211F2F -> #918CA9)
+  const [themeMode, setThemeMode] = useState(() => {
+    try {
+      const saved = localStorage.getItem('macos_theme_mode');
+      if (saved === 'morning' || saved === 'night') return saved;
+    } catch {
+      // Ignored
+    }
+    return isMorningHour() ? 'morning' : 'night';
+  });
+
+  // Auto-check time of day every 30 seconds if user hasn't explicitly locked a preference
+  useEffect(() => {
+    const checkAutoTheme = () => {
+      try {
+        const manual = localStorage.getItem('macos_theme_manual');
+        if (!manual) {
+          setThemeMode(isMorningHour() ? 'morning' : 'night');
+        }
+      } catch {
+        // Ignored
+      }
+    };
+    const interval = setInterval(checkAutoTheme, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const toggleTheme = () => {
+    setThemeMode((prev) => {
+      const next = prev === 'morning' ? 'night' : 'morning';
+      try {
+        localStorage.setItem('macos_theme_mode', next);
+        localStorage.setItem('macos_theme_manual', 'true');
+      } catch {
+        // Ignored
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -51,21 +96,26 @@ export default function MacOSDesktop({ isOpen, onClose }) {
   return (
     <div
       id="macos-overlay"
-      className="active"
+      className={`active theme-${themeMode}`}
+      data-theme={themeMode}
       onClick={closeAllMenus}
     >
-      <WallpaperLayer wallpaper={wallpaper} />
+      <WallpaperLayer />
       <DesktopRobotCompanion />
+
+      {/* Desktop Widgets (Position 5: Working Status, Position 4: Date Time) */}
+      <WorkingStatusWidget onOpenWin={openWin} />
+      <DateTimeWidget />
 
       <MacOSMenubar
         openMenu={openMenu}
+        themeMode={themeMode}
+        onToggleTheme={toggleTheme}
         onToggleMenu={toggleMenu}
         onCloseMenus={closeAllMenus}
         onCloseOs={onClose}
         onOpenWin={openWin}
         onShowOnlyWin={showOnlyWin}
-        onCycleWallpaper={cycleWallpaper}
-        onSetWallpaper={setWallpaper}
       />
 
       {/* Windows — Each section window embeds its 3D visualizer inside! */}
@@ -162,7 +212,6 @@ export default function MacOSDesktop({ isOpen, onClose }) {
         focusedWindow={focusedWindow}
         onOpenWin={openWin}
         onMinWin={minimizeWin}
-        onCycleWallpaper={cycleWallpaper}
       />
     </div>
   );

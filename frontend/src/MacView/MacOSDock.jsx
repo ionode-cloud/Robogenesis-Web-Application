@@ -4,7 +4,6 @@ import {
   TerminalIcon,
   DomainsIcon,
   MessagesIcon,
-  PhotosIcon,
   ProductsIcon,
   WebDevIcon,
 } from './MacIcons.jsx';
@@ -15,7 +14,6 @@ export default function MacOSDock({
   focusedWindow = null,
   onOpenWin,
   onMinWin,
-  onCycleWallpaper,
 }) {
   const handleDockItemClick = (id) => {
     if (!openWindows.has(id)) {
@@ -127,16 +125,6 @@ export default function MacOSDock({
         <span className="os-dock-tooltip">
           {minimizedWindows.has('win-console') ? 'Console (Minimized)' : 'Console'}
         </span>
-      </div>
-
-      {/* 7. Wallpaper Gallery */}
-      <div
-        className="os-dock-icon"
-        onClick={onCycleWallpaper}
-        title="Change Wallpaper"
-      >
-        <PhotosIcon />
-        <span className="os-dock-tooltip">Wallpaper</span>
       </div>
     </div>
   );

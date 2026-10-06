@@ -2290,8 +2290,14 @@ a {
 
 /* ==========================================================================
    MACOS DESKTOP SIMULATION OVERLAY
+   Dynamic Day/Night Theme System:
+   - Morning (6:00 AM - 6:00 PM): linear-gradient(90deg, #595CFF, #C6F8FF)
+   - Night   (6:00 PM - 6:00 AM): linear-gradient(90deg, #211F2F, #918CA9)
    ========================================================================== */
 #macos-overlay {
+  --macos-bg-left: #595CFF;
+  --macos-bg-right: #C6F8FF;
+  --macos-desktop-bg: linear-gradient(90deg, var(--macos-bg-left), var(--macos-bg-right));
   position: fixed;
   top: 0;
   left: 0;
@@ -2301,10 +2307,29 @@ a {
   height: 100vh;
   height: 100dvh;
   z-index: 9999;
-  background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 100%);
+  background: var(--macos-desktop-bg);
   display: none;
   overflow: hidden;
   font-family: 'Outfit', sans-serif;
+  transition: background 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Morning Background: #595CFF (Left) to #C6F8FF (Right) */
+#macos-overlay.theme-morning,
+#macos-overlay[data-theme="morning"] {
+  --macos-bg-left: #595CFF;
+  --macos-bg-right: #C6F8FF;
+  --macos-desktop-bg: linear-gradient(90deg, #595CFF, #C6F8FF);
+  background: linear-gradient(90deg, #595CFF, #C6F8FF);
+}
+
+/* Night Background: #211F2F (Left) to #918CA9 (Right) */
+#macos-overlay.theme-night,
+#macos-overlay[data-theme="night"] {
+  --macos-bg-left: #211F2F;
+  --macos-bg-right: #918CA9;
+  --macos-desktop-bg: linear-gradient(90deg, #211F2F, #918CA9);
+  background: linear-gradient(90deg, #211F2F, #918CA9);
 }
 
 #macos-overlay.active {
@@ -2324,44 +2349,21 @@ a {
   }
 }
 
-.os-desktop-bg {
+/* macOS Desktop Background Layer: Transparent so it directly reflects #macos-overlay background (single source of truth) */
+.os-desktop-solid-bg {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 120% 80% at 20% 110%, #1d4ed8 0%, transparent 55%),
-    radial-gradient(ellipse 80% 60% at 85% -10%, #312e81 0%, transparent 50%),
-    radial-gradient(ellipse 70% 80% at 50% 45%, #1e40af 0%, transparent 65%),
-    linear-gradient(160deg, #0f172a 0%, #1e3a8a 40%, #1e293b 70%, #0f172a 100%);
+  background: transparent;
+  z-index: 0;
+  overflow: hidden;
 }
 
-/* macOS Dynamic Wallpaper Slideshow (image1 through image8) */
 .os-desktop-slideshow-container {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #0f172a;
+  background: transparent;
   z-index: 0;
-}
-
-.os-desktop-slide {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  opacity: 0;
-  transform: scale(1.03);
-  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 3.5s cubic-bezier(0.25, 1, 0.5, 1);
-  pointer-events: none;
-  user-select: none;
-  will-change: opacity, transform;
-  filter: contrast(1.04) brightness(1.08) saturate(1.08);
-}
-
-.os-desktop-slide.active {
-  opacity: 1;
-  transform: scale(1);
 }
 
 .os-desktop-slideshow-overlay {
@@ -2369,13 +2371,54 @@ a {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0.10) 0%,
-    transparent 70px,
-    transparent calc(100% - 100px),
-    rgba(0, 0, 0, 0.12) 100%
+    rgba(0, 0, 0, 0.06) 0%,
+    transparent 60px,
+    transparent calc(100% - 80px),
+    rgba(0, 0, 0, 0.08) 100%
   );
   pointer-events: none;
   z-index: 1;
+}
+
+/* macOS Frosted Glass Wallpaper HUD Toast */
+.os-wallpaper-toast {
+  position: absolute;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28), 0 2px 8px rgba(0, 0, 0, 0.12);
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  z-index: 950;
+  pointer-events: none;
+  animation: wpToastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.os-wp-toast-icon {
+  font-size: 15px;
+}
+
+@keyframes wpToastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
 }
 
 .os-desktop-video-bg {
@@ -2391,56 +2434,112 @@ a {
   display: flex;
 }
 
-/* macOS Menubar - Clean, Luminous Frosted Glass */
+/* macOS Menubar - Clean, Luminous Frosted Glass (Compact 28px Authentic macOS Size) */
 .os-menubar {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.32);
-  backdrop-filter: blur(32px) saturate(210%) brightness(1.08);
-  -webkit-backdrop-filter: blur(32px) saturate(210%) brightness(1.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  height: 28px;
+  background: rgba(255, 255, 255, 0.30);
+  backdrop-filter: blur(28px) saturate(200%) brightness(1.05);
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.40);
   display: flex;
   align-items: center;
-  padding: 0 18px;
-  font-size: 13.5px;
+  padding: 0 12px;
+  font-size: 12px;
   color: #ffffff;
   z-index: 1000;
   user-select: none;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+#macos-overlay.theme-night .os-menubar {
+  background: rgba(25, 23, 36, 0.60);
+  border-bottom: 1px solid rgba(145, 140, 169, 0.25);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.25);
 }
 
 .os-mb-left {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .os-mb-right {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 8px;
+}
+
+/* Dynamic Wallpaper Theme Toggle Pill (Morning ☀️ / Night 🌙) */
+.os-mb-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: var(--radius-full);
+  padding: 2px 9px;
+  height: 22px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  user-select: none;
+}
+
+.os-mb-theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.38);
+  border-color: rgba(255, 255, 255, 0.75);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.os-mb-theme-toggle.night {
+  background: rgba(33, 31, 47, 0.65);
+  border-color: rgba(145, 140, 169, 0.55);
+  color: #e2e8f0;
+}
+
+.os-mb-theme-toggle.night:hover {
+  background: rgba(33, 31, 47, 0.85);
+  border-color: rgba(145, 140, 169, 0.85);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.os-mb-theme-icon {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.os-mb-theme-label {
+  letter-spacing: 0.02em;
 }
 
 .os-back-btn,
 .os-mb-landing-btn {
   background: rgba(255, 255, 255, 0.95);
   color: #0f172a;
-  padding: 6px 14px;
+  padding: 2px 10px;
+  height: 22px;
   border-radius: var(--radius-full);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   border: 1px solid rgba(255, 255, 255, 1);
   transition: all 0.18s ease;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   font-family: inherit;
   white-space: nowrap;
 }
@@ -2450,13 +2549,13 @@ a {
   background: #ffffff;
   color: #0284c7;
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
+  box-shadow: 0 3px 12px rgba(2, 132, 199, 0.35);
 }
 
 .os-mb-direct-nav {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
 .os-mb-landing-text-mobile {
@@ -2475,8 +2574,8 @@ a {
 
 @media (max-width: 640px) {
   .os-menubar {
-    height: 38px;
-    padding: 0 10px;
+    height: 28px;
+    padding: 0 8px;
   }
   .os-mb-landing-text-desktop {
     display: none;
@@ -2485,12 +2584,13 @@ a {
     display: inline;
   }
   .os-mb-landing-btn {
-    padding: 4px 10px;
-    font-size: 11px;
+    padding: 2px 8px;
+    font-size: 10.5px;
+    height: 20px;
     border-radius: 6px;
   }
   .os-mb-right {
-    gap: 8px;
+    gap: 6px;
   }
   .os-mb-clock {
     font-size: 11px;
@@ -2512,15 +2612,15 @@ a {
 .os-mb-menu-btn {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 13px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
   font-weight: 500;
-  font-family: 'Outfit', sans-serif;
-  padding: 0 10px;
-  height: 32px;
+  font-family: 'Outfit', -apple-system, sans-serif;
+  padding: 0 7px;
+  height: 22px;
   cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.12s;
+  border-radius: 4px;
+  transition: background 0.12s, color 0.12s;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -2532,10 +2632,65 @@ a {
   color: #ffffff;
 }
 
+/* Isolated Bulb Button (Dropdown menu trigger only) */
+.os-mb-bulb-btn {
+  width: 26px;
+  height: 22px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.os-mb-bulb-img {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 1px 4px rgba(255, 214, 10, 0.65));
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.os-mb-bulb-btn:hover .os-mb-bulb-img,
+.os-mb-menu.open .os-mb-bulb-btn .os-mb-bulb-img {
+  transform: scale(1.12);
+  filter: drop-shadow(0 2px 8px rgba(255, 214, 10, 0.95));
+}
+
+/* ROBOGENESIS Title Button (Separate Home Page trigger only) */
+.os-mb-app-title-btn {
+  height: 22px;
+  padding: 0 7px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.os-mb-app-title {
+  font-weight: 800;
+  font-size: 12.5px;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  user-select: none;
+}
+
+.os-mb-clock {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
 .os-mb-menu-btn.bold {
   font-weight: 800;
-  font-size: 15px;
-  padding: 0 8px;
+  font-size: 13px;
+  padding: 0 6px;
 }
 
 .os-mb-dropdown {
@@ -3891,8 +4046,8 @@ a {
 
   /* macOS Desktop Overlay & Windows on Mobile */
   .os-menubar {
-    height: 38px;
-    padding: 0 10px;
+    height: 28px;
+    padding: 0 8px;
   }
 
   .os-mb-direct-nav {
@@ -3900,17 +4055,27 @@ a {
   }
 
   .os-mb-left {
-    gap: 4px;
+    gap: 2px;
   }
 
-  .os-mb-brand-btn {
-    height: 30px;
+  .os-mb-bulb-btn {
+    height: 22px;
+    width: 24px;
+    padding: 0;
+  }
+
+  .os-mb-bulb-img {
+    height: 16px;
+    width: 16px;
+  }
+
+  .os-mb-app-title-btn {
+    height: 22px;
     padding: 0 4px;
-    gap: 6px;
   }
 
-  .os-mb-logo {
-    height: 26px;
+  .os-mb-app-title {
+    font-size: 11.5px;
   }
 
   .os-mb-clock {

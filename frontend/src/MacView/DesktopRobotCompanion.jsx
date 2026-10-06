@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 // Full-screen boundaries (covers entire macOS desktop below top menubar)
 const SCREEN_MIN_X = 12;
-const SCREEN_MIN_Y = 34; // Right below menubar (32px)
+const SCREEN_MIN_Y = 30; // Right below menubar (28px)
 const ROBOT_WIDTH = 96;
 const ROBOT_HEIGHT = 110;
 const FOLLOW_IDLE_TIMEOUT_MS = 6000; // Follows for 6s after last mouse click/move

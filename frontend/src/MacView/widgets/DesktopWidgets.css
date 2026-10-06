@@ -1,0 +1,635 @@
+/* ==========================================================
+   macOS Desktop Widgets (Frosted Glass Aesthetics)
+   Matches Sonoma / Sequoia Desktop Widgets Design System
+   ========================================================== */
+
+.os-desktop-widget {
+  position: absolute;
+  z-index: 15;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(30px) saturate(190%) brightness(1.08);
+  -webkit-backdrop-filter: blur(30px) saturate(190%) brightness(1.08);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 16px 36px rgba(40, 45, 140, 0.22),
+    0 2px 8px rgba(40, 45, 140, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  color: #0f172a;
+  padding: 14px 16px;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Outfit', sans-serif;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.25s ease;
+  overflow: hidden;
+}
+
+.os-desktop-widget:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.52);
+  box-shadow:
+    0 20px 44px rgba(40, 45, 140, 0.28),
+    0 4px 12px rgba(40, 45, 140, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.os-widget-glass-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.os-widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* ----------------------------------------------------------
+   4. Date & Time Widget (Top Right — Themed with #C6F8FF side)
+   ---------------------------------------------------------- */
+.os-datetime-widget {
+  top: 40px;
+  right: 24px;
+  width: 245px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(28px) saturate(190%) brightness(1.05);
+  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.05);
+  border: 1.5px solid rgba(14, 165, 233, 0.45);
+  box-shadow:
+    0 16px 36px rgba(12, 74, 110, 0.16),
+    0 2px 10px rgba(198, 248, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.os-datetime-widget:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow:
+    0 20px 44px rgba(12, 74, 110, 0.22),
+    0 0 24px rgba(198, 248, 255, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.os-dt-cal-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 9px;
+  box-shadow: 0 2px 8px rgba(12, 74, 110, 0.12);
+  overflow: hidden;
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  flex-shrink: 0;
+}
+
+.os-dt-cal-month {
+  width: 100%;
+  background: linear-gradient(90deg, #0284c7 0%, #0ea5e9 100%);
+  color: #ffffff;
+  font-size: 8.5px;
+  font-weight: 800;
+  text-align: center;
+  padding: 1.5px 0;
+  letter-spacing: 0.06em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.os-dt-cal-day {
+  color: #0c4a6e;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.os-dt-day-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.os-dt-day-name {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0c4a6e;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.os-dt-full-date {
+  font-size: 11px;
+  color: rgba(12, 74, 110, 0.82);
+  font-weight: 600;
+}
+
+.os-dt-format-pill {
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 2px 6px;
+  background: rgba(198, 248, 255, 0.65);
+  color: #0369a1;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(14, 165, 233, 0.45);
+}
+
+.os-dt-clock-body {
+  margin: 8px 0 12px 0;
+  padding: 4px 0;
+}
+
+.os-dt-digits {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.os-dt-main-time {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #0c4a6e;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.os-dt-colon {
+  display: inline-block;
+  animation: colonPulse 1s ease-in-out infinite;
+  opacity: 0.9;
+  color: #0ea5e9;
+}
+
+@keyframes colonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.os-dt-sec-wrap {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #0284c7;
+}
+
+.os-dt-sec {
+  font-variant-numeric: tabular-nums;
+  color: #0284c7;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.os-dt-ampm {
+  font-size: 10px;
+  color: #0369a1;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.os-dt-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(12, 74, 110, 0.12);
+}
+
+.os-dt-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: rgba(12, 74, 110, 0.78);
+}
+
+.os-dt-tz-tag {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.os-dt-tz-icon {
+  font-size: 10px;
+}
+
+.os-dt-progress-num {
+  font-variant-numeric: tabular-nums;
+  color: #0284c7;
+  font-weight: 800;
+}
+
+.os-dt-progress-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(12, 74, 110, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.os-dt-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%);
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+/* ----------------------------------------------------------
+   5. Working Status Widget (Top Left — Themed with #595CFF side)
+   ---------------------------------------------------------- */
+.os-status-widget {
+  top: 40px;
+  left: 24px;
+  width: 270px;
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(28px) saturate(190%) brightness(1.05);
+  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.05);
+  border: 1.5px solid rgba(89, 92, 255, 0.55);
+  box-shadow:
+    0 16px 36px rgba(25, 20, 95, 0.25),
+    0 2px 10px rgba(89, 92, 255, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.os-status-widget:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 20px 44px rgba(25, 20, 95, 0.32),
+    0 0 24px rgba(89, 92, 255, 0.40),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.os-ws-live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #595CFF;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(89, 92, 255, 0.35);
+}
+
+.os-ws-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.os-ws-dot.green {
+  background: #10b981;
+  box-shadow: 0 0 8px #34d399;
+  animation: dotPulse 1.8s infinite;
+}
+
+.os-ws-dot.cyan {
+  background: #38bdf8;
+  box-shadow: 0 0 8px #7dd3fc;
+  animation: dotPulse 1.8s infinite;
+}
+
+.os-ws-dot.amber {
+  background: #f59e0b;
+  box-shadow: 0 0 8px #fbbf24;
+  animation: dotPulse 1.8s infinite;
+}
+
+@keyframes dotPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+.os-ws-badge-text {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+}
+
+.os-ws-category {
+  font-size: 10px;
+  font-weight: 800;
+  color: #312e81;
+  letter-spacing: 0.05em;
+}
+
+.os-ws-roll-btn {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(89, 92, 255, 0.45);
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  color: #312e81;
+}
+
+.os-ws-roll-btn:hover {
+  background: #595CFF;
+  color: #ffffff;
+  border-color: #595CFF;
+  transform: rotate(45deg) scale(1.1);
+  box-shadow: 0 2px 10px rgba(89, 92, 255, 0.35);
+}
+
+.os-ws-body {
+  margin: 6px 0 10px 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.os-ws-body.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.os-ws-body.fade-out {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.os-ws-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.os-ws-title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #1e1b4b;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.os-ws-subtitle {
+  margin: 2px 0 0 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #4338ca;
+  line-height: 1.3;
+}
+
+.os-ws-detail {
+  margin: 4px 0 0 0;
+  font-size: 10.5px;
+  color: rgba(30, 27, 75, 0.82);
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.os-ws-footer {
+  padding-top: 8px;
+  border-top: 1px solid rgba(89, 92, 255, 0.16);
+}
+
+.os-ws-telemetry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+}
+
+.os-ws-stat-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.os-ws-stat-label {
+  font-size: 8.5px;
+  font-weight: 800;
+  color: rgba(30, 27, 75, 0.72);
+  letter-spacing: 0.04em;
+}
+
+.os-ws-stat-bar-wrap {
+  width: 100%;
+  height: 4px;
+  background: rgba(89, 92, 255, 0.15);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 1px 0;
+}
+
+.os-ws-stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #595CFF 0%, #818cf8 100%);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.os-ws-stat-value {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #1e1b4b;
+  font-variant-numeric: tabular-nums;
+}
+
+.os-ws-stat-value.highlight {
+  color: #4338ca;
+}
+
+/* ==========================================================
+   NIGHT THEME OVERRIDES FOR DESKTOP WIDGETS
+   Matches:
+   - Left Side  (#211F2F) -> WorkingStatusWidget Dark Glass
+   - Right Side (#918CA9) -> DateTimeWidget Slate Lavender Glass
+   ========================================================== */
+
+/* 1. Left Card: Working Status Widget in Night Mode (sits on #211F2F) */
+#macos-overlay.theme-night .os-status-widget {
+  background: rgba(33, 31, 47, 0.72);
+  border: 1.5px solid rgba(145, 140, 169, 0.45);
+  box-shadow:
+    0 16px 36px rgba(10, 8, 20, 0.45),
+    0 2px 10px rgba(145, 140, 169, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
+}
+
+#macos-overlay.theme-night .os-status-widget:hover {
+  background: rgba(33, 31, 47, 0.85);
+  border-color: rgba(145, 140, 169, 0.65);
+  box-shadow:
+    0 20px 44px rgba(10, 8, 20, 0.55),
+    0 0 24px rgba(145, 140, 169, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+#macos-overlay.theme-night .os-ws-live-tag {
+  background: #6366f1;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+}
+
+#macos-overlay.theme-night .os-ws-category {
+  color: #c7d2fe;
+}
+
+#macos-overlay.theme-night .os-ws-roll-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(145, 140, 169, 0.45);
+  color: #e2e8f0;
+}
+
+#macos-overlay.theme-night .os-ws-roll-btn:hover {
+  background: #6366f1;
+  color: #ffffff;
+  border-color: #6366f1;
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+}
+
+#macos-overlay.theme-night .os-ws-title {
+  color: #f8fafc;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+#macos-overlay.theme-night .os-ws-subtitle {
+  color: #a5b4fc;
+}
+
+#macos-overlay.theme-night .os-ws-detail {
+  color: rgba(226, 232, 240, 0.82);
+}
+
+#macos-overlay.theme-night .os-ws-footer {
+  border-top-color: rgba(145, 140, 169, 0.25);
+}
+
+#macos-overlay.theme-night .os-ws-stat-label {
+  color: rgba(226, 232, 240, 0.70);
+}
+
+#macos-overlay.theme-night .os-ws-stat-bar-wrap {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+#macos-overlay.theme-night .os-ws-stat-bar-fill {
+  background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+}
+
+#macos-overlay.theme-night .os-ws-stat-value {
+  color: #f8fafc;
+}
+
+#macos-overlay.theme-night .os-ws-stat-value.highlight {
+  color: #c084fc;
+}
+
+/* 2. Right Card: DateTime Widget in Night Mode (sits on #918CA9) */
+#macos-overlay.theme-night .os-datetime-widget {
+  background: rgba(33, 31, 47, 0.68);
+  border: 1.5px solid rgba(145, 140, 169, 0.55);
+  box-shadow:
+    0 16px 36px rgba(15, 12, 28, 0.35),
+    0 2px 10px rgba(145, 140, 169, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  color: #f8fafc;
+}
+
+#macos-overlay.theme-night .os-datetime-widget:hover {
+  background: rgba(33, 31, 47, 0.82);
+  border-color: rgba(145, 140, 169, 0.75);
+  box-shadow:
+    0 20px 44px rgba(15, 12, 28, 0.45),
+    0 0 24px rgba(145, 140, 169, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+#macos-overlay.theme-night .os-dt-cal-badge {
+  background: #1e1b2e;
+  border-color: rgba(145, 140, 169, 0.45);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+#macos-overlay.theme-night .os-dt-cal-month {
+  background: linear-gradient(90deg, #4f46e5 0%, #918ca9 100%);
+  color: #ffffff;
+}
+
+#macos-overlay.theme-night .os-dt-cal-day {
+  color: #f8fafc;
+}
+
+#macos-overlay.theme-night .os-dt-day-name {
+  color: #f8fafc;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+#macos-overlay.theme-night .os-dt-full-date {
+  color: rgba(226, 232, 240, 0.82);
+}
+
+#macos-overlay.theme-night .os-dt-format-pill {
+  background: rgba(145, 140, 169, 0.25);
+  color: #e2e8f0;
+  border-color: rgba(145, 140, 169, 0.45);
+}
+
+#macos-overlay.theme-night .os-dt-main-time {
+  color: #f8fafc;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+#macos-overlay.theme-night .os-dt-colon {
+  color: #a5b4fc;
+}
+
+#macos-overlay.theme-night .os-dt-sec-wrap,
+#macos-overlay.theme-night .os-dt-sec {
+  color: #cbd5e1;
+}
+
+#macos-overlay.theme-night .os-dt-ampm {
+  color: #a5b4fc;
+}
+
+#macos-overlay.theme-night .os-dt-footer {
+  border-top-color: rgba(145, 140, 169, 0.25);
+}
+
+#macos-overlay.theme-night .os-dt-meta-row {
+  color: rgba(226, 232, 240, 0.78);
+}
+
+#macos-overlay.theme-night .os-dt-progress-num {
+  color: #c7d2fe;
+}
+
+#macos-overlay.theme-night .os-dt-progress-track {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+#macos-overlay.theme-night .os-dt-progress-fill {
+  background: linear-gradient(90deg, #6366f1 0%, #918ca9 100%);
+}
+
+/* Hide or scale widgets on smaller screens so desktop remains clutter-free */
+@media (max-width: 900px) {
+  .os-status-widget,
+  .os-datetime-widget {
+    display: none;
+  }
+}
