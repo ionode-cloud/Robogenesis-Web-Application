@@ -76,6 +76,26 @@ export const AdminController = {
     }
   },
 
+  // Delete Registered User
+  deleteUser(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        return res.status(400).json({ error: 'User ID is required.' });
+      }
+
+      const deleted = Storage.deleteUser(id);
+      if (!deleted) {
+        return res.status(404).json({ error: 'User not found or already deleted.' });
+      }
+
+      return res.json({ message: 'User deleted successfully.', id });
+    } catch (err) {
+      console.error('[AdminController.deleteUser] Error:', err);
+      return res.status(500).json({ error: 'Failed to delete user.' });
+    }
+  },
+
   // 3. Get All Admin Credentials
   getAdminCredentials(req, res) {
     try {

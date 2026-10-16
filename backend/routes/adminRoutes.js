@@ -14,6 +14,7 @@ router.delete('/enquiries/:id', AdminController.deleteEnquiry);
 
 // Registered Users
 router.get('/users', AdminController.getUsers);
+router.delete('/users/:id', AdminController.deleteUser);
 
 // Admin Credentials Management
 router.get('/credentials', AdminController.getAdminCredentials);

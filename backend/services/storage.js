@@ -412,6 +412,33 @@ export const Storage = {
     }
   },
 
+  deleteUser(id) {
+    if (!id) return false;
+    const users = this.getUsers();
+    const filtered = users.filter((u) => u.id !== id && u.email.toLowerCase() !== id.toLowerCase());
+    if (filtered.length === users.length) {
+      return false;
+    }
+    writeJsonFile(USERS_FILE, filtered);
+
+    // Asynchronously delete from MongoDB
+    if (isDbConnected()) {
+      const query = [{ id }, { email: id.toLowerCase() }];
+      try {
+        if (id.match(/^[0-9a-fA-F]{24}$/)) {
+          query.push({ _id: id });
+        }
+      } catch {
+        // Ignored
+      }
+      UserModel.deleteOne({ $or: query }).catch((e) =>
+        console.error('[Storage.deleteUser] MongoDB delete error:', e.message)
+      );
+    }
+
+    return true;
+  },
+
   // Enquiries Operations
   getEnquiries() {
     const list = readJsonFile(ENQUIRIES_FILE, []);

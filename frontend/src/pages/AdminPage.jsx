@@ -226,6 +226,41 @@ Autonomous Robotics & Smart Systems
     }
   };
 
+  // Handle Delete Registered User
+  const handleDeleteUser = async (id, name, email) => {
+    if (
+      currentUser &&
+      (currentUser.id === id ||
+        (email && currentUser.email && currentUser.email.toLowerCase() === email.toLowerCase()))
+    ) {
+      alert('You cannot delete your own active administrator session account.');
+      return;
+    }
+
+    if (!window.confirm(`Are you sure you want to permanently delete registered user "${name || email}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/admin/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to delete registered user.');
+      }
+
+      setUsers((prev) => prev.filter((u) => u.id !== id));
+    } catch (err) {
+      alert(err.message || 'Failed to delete user.');
+    }
+  };
+
   // Handle Save (Create or Update) Admin Credential
   const handleSaveAdminCredential = async (e) => {
     e.preventDefault();
@@ -1083,49 +1118,82 @@ Autonomous Robotics & Smart Systems
                           <th>Access Level</th>
                           <th>Registered Date</th>
                           <th>Last Session</th>
+                          <th style={{ textAlign: 'right' }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {filteredUsers.map((u) => (
-                          <tr key={u.id}>
-                            <td>
-                              <div className="admin-client-cell">
-                                <div className="admin-client-avatar">
-                                  {(u.name || 'US').slice(0, 2).toUpperCase()}
+                        {filteredUsers.map((u) => {
+                          const isCurrentAdmin =
+                            currentUser &&
+                            (currentUser.id === u.id ||
+                              (u.email &&
+                                currentUser.email &&
+                                currentUser.email.toLowerCase() === u.email.toLowerCase()));
+                          return (
+                            <tr key={u.id}>
+                              <td>
+                                <div className="admin-client-cell">
+                                  <div className="admin-client-avatar">
+                                    {(u.name || 'US').slice(0, 2).toUpperCase()}
+                                  </div>
+                                  <div className="admin-client-name">{u.name}</div>
                                 </div>
-                                <div className="admin-client-name">{u.name}</div>
-                              </div>
-                            </td>
-                            <td>{u.email}</td>
-                            <td>
-                              <span className="domain-pill" style={{ textTransform: 'capitalize' }}>
-                                {u.role}
-                              </span>
-                            </td>
-                            <td>
-                              <span className="status-pill-badge resolved">
-                                {u.labAccess || 'Level 3 Pro'}
-                              </span>
-                            </td>
-                            <td style={{ fontSize: '12.5px', color: '#64748b' }}>
-                              {new Date(u.createdAt).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric',
-                              })}
-                            </td>
-                            <td style={{ fontSize: '12.5px', color: '#64748b' }}>
-                              {u.lastLogin
-                                ? new Date(u.lastLogin).toLocaleDateString('en-US', {
-                                    month: 'short',
-                                    day: 'numeric',
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                  })
-                                : 'First Session'}
-                            </td>
-                          </tr>
-                        ))}
+                              </td>
+                              <td>{u.email}</td>
+                              <td>
+                                <span className="domain-pill" style={{ textTransform: 'capitalize' }}>
+                                  {u.role}
+                                </span>
+                              </td>
+                              <td>
+                                <span className="status-pill-badge resolved">
+                                  {u.labAccess || 'Level 3 Pro'}
+                                </span>
+                              </td>
+                              <td style={{ fontSize: '12.5px', color: '#64748b' }}>
+                                {new Date(u.createdAt).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric',
+                                })}
+                              </td>
+                              <td style={{ fontSize: '12.5px', color: '#64748b' }}>
+                                {u.lastLogin
+                                  ? new Date(u.lastLogin).toLocaleDateString('en-US', {
+                                      month: 'short',
+                                      day: 'numeric',
+                                      hour: '2-digit',
+                                      minute: '2-digit',
+                                    })
+                                  : 'First Session'}
+                              </td>
+                              <td style={{ textAlign: 'right' }}>
+                                <button
+                                  type="button"
+                                  className={`btn-table-action danger${isCurrentAdmin ? ' disabled' : ''}`}
+                                  onClick={() => handleDeleteUser(u.id, u.name, u.email)}
+                                  disabled={isCurrentAdmin}
+                                  title={
+                                    isCurrentAdmin
+                                      ? 'Cannot delete your active session'
+                                      : `Delete registered user ${u.name || u.email}`
+                                  }
+                                  aria-label={`Delete registered user ${u.name || u.email}`}
+                                  style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '5px',
+                                    cursor: isCurrentAdmin ? 'not-allowed' : 'pointer',
+                                    opacity: isCurrentAdmin ? 0.45 : 1,
+                                  }}
+                                >
+                                  <FiTrash2 size={13} />
+                                  <span>Delete</span>
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   )}
